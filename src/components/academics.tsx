@@ -49,7 +49,7 @@ function AcademicCard({ card, delay }: { card: Card; delay: number }) {
     <Reveal delay={delay}>
       <Link
         href="/contact?type=Academics"
-        className="group relative block aspect-[4/3] overflow-hidden rounded-3xl bg-ink sm:aspect-[16/11]"
+        className="group relative block aspect-[4/3] overflow-hidden rounded-2xl bg-ink sm:aspect-[16/11]"
       >
         <Image
           src={card.image}
@@ -98,7 +98,11 @@ function GroupLabel({ label, id }: { label: string; id?: string }) {
   );
 }
 
-export function Academics() {
+export function Academics({
+  content = {},
+}: {
+  content?: Record<string, string>;
+}) {
   return (
     <section id="academics" className="scroll-mt-20 bg-surface py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -106,22 +110,18 @@ export function Academics() {
         <div className="grid gap-10 lg:grid-cols-2 lg:items-end">
           <div>
             <Reveal>
-              <Eyebrow>Academics &amp; Co-Curricular</Eyebrow>
+              <Eyebrow>{content.eyebrow ?? "Academics & Beyond"}</Eyebrow>
             </Reveal>
             <Reveal delay={120}>
               <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] text-fg md:text-6xl">
-                Four pathways to{" "}
-                <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                  greatness
-                </span>
+                {content.title ?? "Our Academic Pathways"}
               </h2>
             </Reveal>
           </div>
           <Reveal delay={200}>
             <p className="max-w-xl text-[15.5px] leading-relaxed text-fg/60 lg:ml-auto">
-              The classroom is only the beginning. From grade six to the
-              final bell of grade thirteen — across the pitch, the stage and
-              the laboratory — every Thomian finds a place to excel.
+              {content.description ??
+                "From Grade 6 to the Advanced Level, our curriculum combines strong classroom teaching with sport, the arts and practical learning — preparing every student for higher education and beyond."}
             </p>
           </Reveal>
         </div>

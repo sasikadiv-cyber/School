@@ -91,7 +91,8 @@ export default function ExamResultsPage() {
             className="animate-fade-up mt-6 max-w-xl text-base leading-relaxed text-white/65"
             style={{ animationDelay: "280ms" }}
           >
-            The numbers describe hard work — the names describe students.
+            Annual G.C.E. Ordinary Level and Advanced Level results of the
+            college — a record of our students&apos; hard work and success.
             Here is both.
           </p>
         </div>
@@ -124,7 +125,7 @@ export default function ExamResultsPage() {
 
             {/* Trend bars */}
             <Reveal delay={160}>
-              <div className="rounded-3xl border border-fg/10 bg-surface-2 p-8">
+              <div className="rounded-2xl border border-fg/10 bg-surface-2 p-8">
                 <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-fg/45">
                   University-qualification rate · five-year trend
                 </p>
@@ -152,7 +153,7 @@ export default function ExamResultsPage() {
 
           {/* Stream table */}
           <Reveal delay={120}>
-            <div className="mt-14 overflow-hidden rounded-3xl border border-fg/10">
+            <div className="mt-14 overflow-hidden rounded-2xl border border-fg/10">
               <div className="grid grid-cols-[1.2fr_0.6fr_0.6fr_1fr] gap-px bg-fg/10 font-sans text-[9px] uppercase tracking-[0.25em] max-md:hidden">
                 <div className="bg-surface-2 px-6 py-4 text-fg/50">Stream</div>
                 <div className="bg-surface-2 px-6 py-4 text-fg/50">Qualified</div>
@@ -192,9 +193,9 @@ export default function ExamResultsPage() {
           </Reveal>
           <Reveal delay={120}>
             <h2 className="mx-auto mt-7 max-w-2xl text-center font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-              First in the{" "}
+              Island&apos;s Best{" "}
               <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                island
+                Performances
               </span>
             </h2>
           </Reveal>
@@ -202,8 +203,8 @@ export default function ExamResultsPage() {
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {honourRoll.map((h, i) => (
               <Reveal key={h.name} delay={i * 110} className="h-full">
-                <div className="group flex h-full flex-col overflow-hidden rounded-3xl bg-card text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
-                  <div className="relative m-2.5 mb-0 aspect-[4/3] overflow-hidden rounded-[1.25rem] bg-ink">
+                <div className="group flex h-full flex-col overflow-hidden rounded-2xl bg-card text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
+                  <div className="relative m-2.5 mb-0 aspect-[4/3] overflow-hidden rounded-[1rem] bg-ink">
                     <Image
                       src={h.image}
                       alt={h.name}
@@ -241,7 +242,7 @@ export default function ExamResultsPage() {
               </Reveal>
               <Reveal delay={120}>
                 <h2 className="mt-7 max-w-xl font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                  The base of every record
+                  A Strong Academic Foundation
                 </h2>
               </Reveal>
             </div>
@@ -259,7 +260,7 @@ export default function ExamResultsPage() {
           <div className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {olStats.map((s, i) => (
               <Reveal key={s.label} delay={i * 100} className="h-full">
-                <div className="h-full rounded-3xl bg-card p-7 transition-all duration-500 hover:-translate-y-1">
+                <div className="h-full rounded-2xl bg-card p-7 transition-all duration-500 hover:-translate-y-1">
                   <p className="font-display text-4xl font-semibold tracking-[-0.03em] text-white lg:text-5xl">
                     {s.value}
                   </p>

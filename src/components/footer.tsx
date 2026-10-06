@@ -1,4 +1,6 @@
-import type { ComponentType } from "react";
+"use client";
+
+import { useEffect, useState, type ComponentType } from "react";
 import Link from "next/link";
 import { ArrowUp, Clock, Mail, MapPin, Phone } from "lucide-react";
 
@@ -60,7 +62,8 @@ const explore = [
   { label: "Co-Curricular", href: "/#cocurricular" },
   { label: "News & Events", href: "/news" },
   { label: "Campus Gallery", href: "/gallery" },
-  { label: "Contact & Admissions", href: "/contact" },
+  { label: "Admissions", href: "/admissions" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const socials: {
@@ -91,6 +94,25 @@ const socials: {
 ];
 
 export function Footer() {
+  const [settings, setSettings] = useState({
+    brandName: "St. Thomas' College",
+    brandSubline: "Matale · Est. 1873",
+    footerDescription:
+      "Shaping scholars, athletes, artists and citizens of character in the heart of Matale for over 150 years.",
+    phone: "+94 66 222 0173",
+    email: "admissions@stcmatale.lk",
+    address: "St. Thomas' College, Matale, Sri Lanka",
+    officeHours: "Mon – Fri · 7.30 a.m. – 3.30 p.m.",
+    admissionsYear: "2027",
+  });
+
+  useEffect(() => {
+    fetch("/api/site-settings", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => setSettings((current) => ({ ...current, ...data })))
+      .catch(() => undefined);
+  }, []);
+
   return (
     <footer id="contact" className="relative scroll-mt-20 overflow-hidden bg-ink text-white">
       <div className="grain pointer-events-none absolute inset-0" />
@@ -105,11 +127,11 @@ export function Footer() {
                 S
               </span>
               <span className="leading-tight">
-                <span className="block font-display text-2xl font-semibold tracking-[-0.01em]">
-                  St. Thomas'
+                <span className="block font-display text-xl font-semibold tracking-[-0.01em]">
+                  St. Thomas&apos; College
                 </span>
                 <span className="block font-sans text-[9px] uppercase tracking-[0.35em] text-white/45">
-                  College Matale · Est. 1873
+                  Matale · Est. 1873
                 </span>
               </span>
             </Link>
@@ -161,23 +183,19 @@ export function Footer() {
             <ul className="mt-7 space-y-5 text-sm text-white/60">
               <li className="flex gap-3.5">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-gold" />
-                St. Thomas' College,
-                <br />
-                Matale, Sri Lanka
+                {settings.address}
               </li>
               <li className="flex items-center gap-3.5">
                 <Phone size={16} className="shrink-0 text-gold" />
-                +94 66 222 0173
+                {settings.phone}
               </li>
               <li className="flex items-center gap-3.5">
                 <Mail size={16} className="shrink-0 text-gold" />
-                admissions@stcmatale.lk
+                {settings.email}
               </li>
               <li className="flex gap-3.5">
                 <Clock size={16} className="mt-0.5 shrink-0 text-gold" />
-                Office Hours · Mon – Fri
-                <br />
-                7.30 a.m. – 3.30 p.m.
+                {settings.officeHours}
               </li>
             </ul>
           </div>
@@ -188,12 +206,11 @@ export function Footer() {
               Admissions 2027
             </p>
             <p className="mt-7 text-sm leading-relaxed text-white/60">
-              Applications for Grade 6 and Advanced Level 2027 intake are now
-              open.
+              Applications for Grade 6 and Advanced Level {settings.admissionsYear} intake are now open.
             </p>
             <div className="mt-6">
               <Link
-                href="/contact?type=Admissions"
+                href="/admissions"
                 className="inline-flex items-center justify-center rounded-full bg-gold px-7 py-3.5 text-[13px] font-medium text-ink transition-colors hover:bg-white"
               >
                 Start Application
@@ -216,9 +233,9 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="relative border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 py-6 font-sans text-[9.5px] uppercase tracking-[0.25em] text-white/35 md:flex-row md:px-8">
-          <p>© 2026 St. Thomas' College · All Rights Reserved</p>
-          <div className="flex items-center gap-7">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-4 px-5 py-6 text-center font-sans text-[9.5px] uppercase tracking-[0.25em] text-white/35 md:flex-row md:justify-between md:text-left md:px-8">
+          <p className="w-full md:w-auto">© 2026 St. Thomas' College · All Rights Reserved</p>
+          <div className="hidden items-center gap-7 md:flex">
             <Link href="/contact" className="transition-colors hover:text-white">
               Admissions Portal
             </Link>

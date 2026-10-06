@@ -8,7 +8,11 @@ import { Eyebrow } from "@/components/eyebrow";
 import { Reveal } from "@/components/reveal";
 import { PostCard } from "@/components/news/post-card";
 
-export async function NewsEvents() {
+export async function NewsEvents({
+  content = {},
+}: {
+  content?: Record<string, string>;
+}) {
   await ensureSeed();
 
   const latest = await db
@@ -24,14 +28,11 @@ export async function NewsEvents() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div>
             <Reveal>
-              <Eyebrow>News &amp; Events</Eyebrow>
+              <Eyebrow>{content.eyebrow ?? "News & Events"}</Eyebrow>
             </Reveal>
             <Reveal delay={120}>
               <h2 className="mt-7 max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] text-fg md:text-6xl">
-                The latest from the{" "}
-                <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                  hill
-                </span>
+                {content.title ?? "Latest News & Events"}
               </h2>
             </Reveal>
           </div>
@@ -40,7 +41,7 @@ export async function NewsEvents() {
               href="/news"
               className="group inline-flex items-center gap-2.5 rounded-full border border-transparent bg-fg px-6 py-3 text-[13px] font-medium text-surface transition-colors duration-300 hover:border-fg/20 hover:bg-surface hover:text-fg"
             >
-              View All News
+              {content.buttonLabel ?? "View All News"}
               <ArrowRight size={14} className="slide-arrow" />
             </Link>
           </Reveal>

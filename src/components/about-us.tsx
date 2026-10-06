@@ -17,38 +17,34 @@ const houses = [
   { name: "Pius", color: "bg-red-600" },
 ];
 
-export function AboutUs() {
+export function AboutUs({
+  content = {},
+}: {
+  content?: Record<string, string>;
+}) {
   return (
     <section id="about" className="scroll-mt-20 bg-surface py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         {/* Centered header */}
         <div className="mx-auto max-w-3xl text-center">
           <Reveal className="flex justify-center">
-            <Eyebrow>About Us</Eyebrow>
+            <Eyebrow>{content.eyebrow ?? "About Us"}</Eyebrow>
           </Reveal>
           <Reveal delay={120}>
             <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.12] tracking-[-0.02em] text-fg md:text-6xl md:leading-[1.08]">
-              A legacy of{" "}
-              <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                excellence
-              </span>
-              , written in Matale since 1873.
+              {content.title ?? "A Proud Tradition of Excellence Since 1873"}
             </h2>
           </Reveal>
           <Reveal delay={220}>
             <p className="mx-auto mt-7 max-w-2xl text-[15.5px] leading-relaxed text-fg/60">
-              Founded on 10 August 1873 in the verandah of a small
-              mud-and-wattle church — with seventy-five boys and twelve girls
-              at the first roll call — St. Thomas&apos; College has grown into
-              one of Sri Lanka&apos;s most respected boys&apos; schools, while
-              keeping its promise intimate: know every Thomian by name, and by
-              heart.
+              {content.description ??
+                "Founded in 1873, St. Thomas' College, Matale is one of Sri Lanka's leading boys' schools, providing quality education from Grade 6 to the G.C.E. Advanced Level. We are committed to academic excellence, discipline and the all-round development of every student entrusted to our care."}
             </p>
             <a
               href="/history"
               className="group mt-8 inline-flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.25em] text-fg"
             >
-              Discover our history
+              {content.buttonLabel ?? "Discover our history"}
               <span className="h-px w-10 bg-fg/30 transition-all duration-500 group-hover:w-16 group-hover:bg-gold" />
               <ArrowRight size={14} className="slide-arrow" />
             </a>
@@ -57,7 +53,7 @@ export function AboutUs() {
 
         {/* Wide image */}
         <Reveal delay={140} className="mt-16">
-          <div className="group relative overflow-hidden rounded-[2rem] bg-ink">
+          <div className="group relative overflow-hidden rounded-[1.5rem] bg-ink">
             <Image
               src="/images/about.jpg"
               alt="Students of St. Thomas' College in Robinson Memorial Hall"
@@ -81,7 +77,7 @@ export function AboutUs() {
         <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 100} className="h-full">
-              <div className="h-full rounded-3xl bg-card p-6 transition-all duration-500 hover:-translate-y-1 hover:border-gold md:p-7">
+              <div className="h-full rounded-2xl bg-card p-6 transition-all duration-500 hover:-translate-y-1 hover:border-gold md:p-7">
                 <p className="font-display text-4xl font-semibold tracking-[-0.03em] text-white lg:text-5xl">
                   {s.value}
                 </p>
@@ -118,7 +114,7 @@ export function AboutUs() {
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             <a
               href="/vision-mission#colours"
-              className="group flex items-center justify-between gap-5 rounded-3xl bg-card p-7 text-white transition-all duration-500 hover:-translate-y-1"
+              className="group flex items-center justify-between gap-5 rounded-2xl bg-card p-7 text-white transition-all duration-500 hover:-translate-y-1"
             >
               <div>
                 <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-gold">
@@ -138,7 +134,7 @@ export function AboutUs() {
 
             <a
               href="/vision-mission#colours"
-              className="group flex items-center justify-between gap-5 rounded-3xl border border-fg/10 p-7 transition-all duration-500 hover:-translate-y-1 hover:border-fg/25"
+              className="group flex items-center justify-between gap-5 rounded-2xl border border-fg/10 p-7 transition-all duration-500 hover:-translate-y-1 hover:border-fg/25"
             >
               <div>
                 <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-fg/45">

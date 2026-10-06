@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Camera, Sparkles } from "lucide-react";
+import { asc } from "drizzle-orm";
 import { db } from "@/db";
 import { galleryItems } from "@/db/schema";
 import { ensureSeed } from "@/db/seed";
@@ -21,7 +22,10 @@ export const metadata = {
 export default async function GalleryPage() {
   await ensureSeed();
 
-  const items = await db.select().from(galleryItems);
+  const items = await db
+    .select()
+    .from(galleryItems)
+    .orderBy(asc(galleryItems.sortOrder), asc(galleryItems.id));
 
   const campusCount = items.filter((i) => i.category === "Campus").length;
   const sportsCount = items.filter((i) => i.category === "Sports").length;
@@ -64,8 +68,8 @@ export default async function GalleryPage() {
             className="animate-fade-up mt-6 max-w-xl text-base leading-relaxed text-white/65"
             style={{ animationDelay: "280ms" }}
           >
-            A photographic chronicle of life at the College — scholarship,
-            ceremony, athletic grit and creative expression.
+            Explore moments of college life — academics, sports, culture and
+            campus — captured through the years.
           </p>
 
           <div
@@ -126,7 +130,7 @@ export default async function GalleryPage() {
       <section className="bg-surface-2 py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <Reveal>
-            <div className="flex flex-col items-start justify-between gap-8 rounded-3xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
+            <div className="flex flex-col items-start justify-between gap-8 rounded-2xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
               <div className="flex items-start gap-5">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold text-ink">
                   <Camera size={22} />

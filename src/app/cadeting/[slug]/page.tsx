@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Medal, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
-import { Eyebrow } from "@/components/eyebrow";
-import { Crest } from "@/components/crest";
+import { CinematicIntro } from "@/components/cadeting/cinematic-intro";
+import { CadetExploreLink } from "@/components/cadeting/explore-link";
 import { UNITS, getUnit } from "@/lib/units";
 
 export function generateStaticParams() {
@@ -39,230 +39,303 @@ export default async function UnitPage({
   const others = UNITS.filter((u) => u.slug !== unit.slug);
 
   return (
-    <main className="relative bg-surface text-fg">
-      <Navbar />
+    <main className="relative bg-[#0a0a09] text-white">
+      <CinematicIntro
+        crest={unit.crest}
+        name={unit.name}
+        tagline={unit.tagline}
+        path={`/cadeting/${unit.slug}`}
+      >
+        <Navbar />
 
-      {/* 1 — Banner */}
-      <section className="relative flex min-h-[58svh] items-end overflow-hidden bg-ink text-white">
-        <Image
-          src={unit.image}
-          alt={unit.name}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-ink/72" />
-        <div className="grain absolute inset-0" />
+        {/* ——— Scene 1 · Banner ——— */}
+        <section className="relative flex min-h-[74svh] items-end overflow-hidden bg-ink text-white">
+          <Image
+            src={unit.image}
+            alt={unit.name}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a09] via-ink/70 to-ink/40" />
+          <div className="grain absolute inset-0" />
+          {/* Letterbox bars */}
+          <span className="absolute inset-x-0 top-0 z-10 h-10 bg-black/90 md:h-12" />
+          <span className="absolute inset-x-0 bottom-0 z-10 h-10 bg-black/90 md:h-12" />
 
-        <div className="relative mx-auto w-full max-w-7xl px-5 pb-16 pt-32 md:px-8 md:pb-20">
-          <Link
-            href="/cadeting"
-            className="animate-fade-up group inline-flex items-center gap-2.5 font-sans text-[10px] uppercase tracking-[0.25em] text-white/60 transition-colors hover:text-gold"
-          >
-            <ArrowLeft
-              size={14}
-              className="transition-transform duration-300 group-hover:-translate-x-1"
-            />
-            All Cadeting Units
-          </Link>
-          <p
-            className="animate-fade-up mt-7 font-sans text-[11px] uppercase tracking-[0.4em] text-white/70"
-            style={{ animationDelay: "120ms" }}
-          >
-            {unit.tagline}
-          </p>
-          <h1
-            className="animate-fade-up mt-4 max-w-4xl font-display text-[clamp(2.4rem,5.5vw,4.6rem)] font-semibold leading-[1.05] tracking-[-0.03em]"
-            style={{ animationDelay: "200ms" }}
-          >
-            {unit.name}
-            <span className="text-gold">.</span>
-          </h1>
-        </div>
-      </section>
+          <div className="relative mx-auto w-full max-w-7xl px-5 pb-24 pt-36 md:px-8 md:pb-28">
+            <Link
+              href="/cadeting"
+              className="animate-fade-up group inline-flex items-center gap-2.5 font-sans text-[10px] uppercase tracking-[0.25em] text-white/60 transition-colors hover:text-gold"
+            >
+              <ArrowLeft
+                size={14}
+                className="transition-transform duration-300 group-hover:-translate-x-1"
+              />
+              All Cadeting Units
+            </Link>
 
-      {/* 2 — Logo + 3 short description */}
-      <section className="bg-surface py-20 md:py-24">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-            <Reveal>
-              <div className="lg:sticky lg:top-28">
-                <div className="flex flex-col items-start gap-6 rounded-3xl bg-card p-9 text-white">
-                  <Crest initials={unit.crest} label={unit.name} size="lg" />
-                  <div>
-                    <h2 className="font-display text-2xl font-semibold tracking-[-0.01em]">
+            <p
+              className="animate-fade-up mt-8 flex items-center gap-3 font-sans text-[9.5px] uppercase leading-relaxed tracking-[0.3em] text-gold sm:gap-4 sm:text-[10.5px] sm:tracking-[0.4em]"
+              style={{ animationDelay: "120ms" }}
+            >
+              <span className="hidden h-px w-10 shrink-0 bg-gold sm:block" />
+              {unit.tagline}
+            </p>
+            <h1
+              className="animate-fade-up mt-5 max-w-4xl font-display text-[clamp(2.6rem,6.5vw,5.2rem)] font-semibold leading-[1.03] tracking-[-0.03em]"
+              style={{ animationDelay: "220ms" }}
+            >
+              {unit.name}
+              <span className="text-gold">.</span>
+            </h1>
+
+            {/* Sharp meta strip — gap-based dividers, no border maths */}
+            <div
+              className="animate-fade-up mt-10 grid grid-cols-2 gap-px bg-white/12 ring-1 ring-white/12 md:mt-12 md:grid-cols-4"
+              style={{ animationDelay: "340ms" }}
+            >
+              {[
+                { label: "Founded", value: unit.founded },
+                { label: "Unit Strength", value: unit.strength },
+                { label: "Honours", value: `${unit.achievements.length} recent` },
+                { label: "Unit Insignia", value: unit.crest },
+              ].map((m) => (
+                <div
+                  key={m.label}
+                  className="min-w-0 bg-[#0a0a09]/85 px-4 py-4 backdrop-blur-sm sm:px-5"
+                >
+                  <p className="font-sans text-[8px] uppercase tracking-[0.26em] text-white/45 sm:tracking-[0.3em]">
+                    {m.label}
+                  </p>
+                  <p className="mt-1.5 break-words font-display text-[13.5px] font-semibold leading-snug tracking-[-0.01em] text-gold sm:text-[15px]">
+                    {m.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ——— Scene 2 · Dossier ——— */}
+        <section className="border-t border-white/10 bg-[#0a0a09] py-20 md:py-28">
+          <div className="mx-auto max-w-7xl px-5 md:px-8">
+            <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+              {/* Sharp crest plaque */}
+              <Reveal>
+                <div className="relative border border-white/12 bg-white/[0.02] lg:sticky lg:top-28">
+                  <div className="p-7 sm:p-9 md:p-11">
+                    <span className="relative grid h-20 w-20 place-items-center rounded-full bg-gold text-ink ring-2 ring-gold/40 sm:h-24 sm:w-24 md:h-28 md:w-28">
+                      <span className="absolute inset-[6px] rounded-full border border-ink/25" />
+                      <span className="font-display text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
+                        {unit.crest}
+                      </span>
+                    </span>
+                    <h2 className="mt-7 font-display text-2xl font-semibold tracking-[-0.01em]">
                       {unit.name}
                     </h2>
-                    <p className="mt-1.5 font-sans text-[9.5px] uppercase tracking-[0.26em] text-gold">
+                    <p className="mt-2 font-sans text-[9.5px] uppercase tracking-[0.26em] text-gold">
                       {unit.founded}
                     </p>
-                  </div>
-                  <span className="block h-px w-8 bg-gold" />
-                  <div className="grid w-full gap-3">
-                    <div className="flex items-center gap-3 text-[13.5px] text-white/65">
-                      <Users size={15} className="text-gold" />
-                      {unit.strength}
-                    </div>
-                    <div className="flex items-center gap-3 text-[13.5px] text-white/65">
-                      <Medal size={15} className="text-gold" />
-                      {unit.achievements.length} recent honours
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {unit.highlights.map((h) => (
-                      <span
-                        key={h}
-                        className="rounded-full border border-white/15 px-3.5 py-1.5 text-[12px] text-white/70"
-                      >
-                        {h}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-
-            <div>
-              <Reveal delay={100}>
-                <Eyebrow>About the Unit</Eyebrow>
-              </Reveal>
-              <Reveal delay={160}>
-                <h2 className="mt-7 font-display text-3xl font-semibold leading-[1.15] tracking-[-0.02em] md:text-[2.6rem]">
-                  {unit.text}
-                </h2>
-              </Reveal>
-              <div className="mt-8 space-y-5">
-                {unit.description.map((p, i) => (
-                  <Reveal key={i} delay={200 + i * 70}>
-                    <p className="text-[15.5px] leading-[1.85] text-fg/70">
-                      {p}
+                    <span className="mt-6 block h-px w-full bg-white/10" />
+                    <p className="mt-5 font-sans text-[10px] uppercase tracking-[0.3em] text-white/45">
+                      Field of Duty
                     </p>
-                  </Reveal>
-                ))}
+                    <div className="mt-3.5 flex flex-wrap gap-2">
+                      {unit.highlights.map((h) => (
+                        <span
+                          key={h}
+                          className="border border-white/15 px-3.5 py-1.5 font-sans text-[10.5px] uppercase tracking-[0.14em] text-white/65 transition-colors duration-300 hover:border-gold hover:text-gold"
+                        >
+                          {h}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+
+              {/* Copy */}
+              <div>
+                <Reveal delay={100}>
+                  <p className="flex items-center gap-4 font-sans text-[10px] uppercase tracking-[0.4em] text-white/45">
+                    <span className="h-px w-10 bg-gold" />
+                    The Dossier
+                  </p>
+                </Reveal>
+                <Reveal delay={160}>
+                  <h2 className="mt-7 font-display text-3xl font-semibold leading-[1.18] tracking-[-0.02em] text-white/95 md:text-[2.5rem]">
+                    {unit.text}
+                  </h2>
+                </Reveal>
+                <div className="mt-9 space-y-6">
+                  {unit.description.map((p, i) => (
+                    <Reveal key={i} delay={200 + i * 80}>
+                      <div className="border-l-2 border-gold/70 pl-6">
+                        <p className="text-[15px] leading-[1.85] text-white/60">
+                          {p}
+                        </p>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 4 — Latest achievements */}
-      <section className="bg-surface-2 py-20 md:py-24">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <Reveal>
-            <Eyebrow>Latest Achievements</Eyebrow>
-          </Reveal>
-          <Reveal delay={120}>
-            <h2 className="mt-7 max-w-xl font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-              Honours on the{" "}
-              <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                board
-              </span>
-            </h2>
-          </Reveal>
-
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {unit.achievements.map((a, i) => (
-              <Reveal key={a.title} delay={i * 90} className="h-full">
-                <div className="flex h-full flex-col rounded-3xl bg-card p-7 text-white transition-all duration-500 hover:-translate-y-1.5">
-                  <span className="rounded-full bg-gold px-4 py-1.5 font-display text-sm font-semibold text-ink self-start">
-                    {a.year}
-                  </span>
-                  <h3 className="mt-5 font-display text-xl font-semibold leading-tight tracking-[-0.01em]">
-                    {a.title}
-                  </h3>
-                  <span className="mb-3 mt-4 block h-px w-7 bg-gold" />
-                  <p className="text-[13px] leading-relaxed text-white/60">
-                    {a.detail}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5 — Gallery */}
-      <section className="bg-surface py-20 md:py-24">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-8">
-            <div>
-              <Reveal>
-                <Eyebrow>Unit Gallery</Eyebrow>
-              </Reveal>
-              <Reveal delay={120}>
-                <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                  In the field
-                </h2>
-              </Reveal>
-            </div>
-            <Reveal delay={180}>
-              <Link
-                href="/gallery"
-                className="group inline-flex items-center gap-2.5 rounded-full border border-fg/15 px-6 py-3 text-[13px] font-medium text-fg transition-colors hover:border-fg hover:bg-fg hover:text-surface"
-              >
-                Full Campus Gallery
-                <ArrowRight size={14} className="slide-arrow" />
-              </Link>
+        {/* ——— Scene 3 · Honours ——— */}
+        <section className="border-t border-white/10 bg-[#0d0d0b] py-20 md:py-28">
+          <div className="mx-auto max-w-7xl px-5 md:px-8">
+            <Reveal>
+              <p className="flex items-center gap-4 font-sans text-[10px] uppercase tracking-[0.4em] text-white/45">
+                <span className="h-px w-10 bg-gold" />
+                Latest Achievements
+              </p>
             </Reveal>
-          </div>
+            <Reveal delay={120}>
+              <h2 className="mt-7 max-w-xl font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
+                Honours on the Record
+              </h2>
+            </Reveal>
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {unit.gallery.map((g, i) => (
-              <Reveal key={i} delay={(i % 4) * 90} className="h-full">
-                <div className="group relative aspect-[4/5] overflow-hidden rounded-3xl bg-card">
-                  <Image
-                    src={g.image}
-                    alt={g.caption}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 25vw"
-                    className="object-cover transition-transform duration-[1.3s] ease-out group-hover:scale-[1.07]"
-                  />
-                  <div className="absolute inset-0 bg-ink/45 transition-colors duration-500 group-hover:bg-ink/60" />
-                  <p className="absolute inset-x-5 bottom-5 text-[13px] leading-snug text-white">
-                    {g.caption}
+            <div className="mt-12 border border-white/12">
+              {unit.achievements.map((a, i) => (
+                <Reveal key={a.title} delay={i * 70}>
+                  <div
+                    className={`group grid gap-x-5 gap-y-2 bg-white/[0.015] p-5 transition-colors duration-300 hover:bg-white/[0.05] sm:grid-cols-[88px_1fr] sm:items-baseline md:p-7 ${
+                      i !== 0 ? "border-t border-white/12" : ""
+                    }`}
+                  >
+                    <div className="flex items-baseline gap-3 sm:block">
+                      <p className="font-display text-2xl font-semibold text-gold md:text-3xl">
+                        {a.year}
+                      </p>
+                      <p className="font-sans text-[9px] uppercase tracking-[0.28em] text-white/30 sm:mt-1">
+                        № {String(i + 1).padStart(2, "0")}
+                      </p>
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-display text-xl font-semibold tracking-[-0.01em] text-white transition-colors duration-300 group-hover:text-gold">
+                        {a.title}
+                      </h3>
+                      <p className="mt-1 text-[13px] leading-relaxed text-white/55">
+                        {a.detail}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ——— Scene 4 · Stills ——— */}
+        <section className="border-t border-white/10 bg-[#0a0a09] py-20 md:py-28">
+          <div className="mx-auto max-w-7xl px-5 md:px-8">
+            <div className="flex flex-wrap items-end justify-between gap-8">
+              <div>
+                <Reveal>
+                  <p className="flex items-center gap-4 font-sans text-[10px] uppercase tracking-[0.4em] text-white/45">
+                    <span className="h-px w-10 bg-gold" />
+                    Unit Gallery
                   </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Other units */}
-      <section className="bg-surface-2 py-16 md:py-20">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <Reveal>
-            <Eyebrow>Other Units</Eyebrow>
-          </Reveal>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {others.map((o, i) => (
-              <Reveal key={o.slug} delay={i * 80} className="h-full">
+                </Reveal>
+                <Reveal delay={120}>
+                  <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
+                    In the Field
+                  </h2>
+                </Reveal>
+              </div>
+              <Reveal delay={180}>
                 <Link
-                  href={`/cadeting/${o.slug}`}
-                  className="group flex h-full items-center gap-4 rounded-3xl border border-fg/10 bg-surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-gold"
+                  href="/gallery"
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-white/15 px-6 py-3 text-[13px] font-medium text-white/80 transition-all duration-300 hover:border-gold hover:text-gold"
                 >
-                  <Crest initials={o.crest} label={o.name} size="sm" />
-                  <div className="min-w-0">
-                    <p className="truncate font-display text-base font-semibold tracking-[-0.01em]">
-                      {o.name}
-                    </p>
-                    <p className="mt-0.5 font-sans text-[9px] uppercase tracking-[0.2em] text-fg/45">
-                      {o.strength}
-                    </p>
-                  </div>
-                  <ArrowRight
-                    size={15}
-                    className="slide-arrow ml-auto shrink-0 text-fg/40"
-                  />
+                  Full Campus Gallery
+                  <ArrowRight size={14} className="slide-arrow" />
                 </Link>
               </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
 
-      <Footer />
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {unit.gallery.map((g, i) => (
+                <Reveal key={i} delay={(i % 4) * 90}>
+                  <div className="group relative aspect-[4/5] overflow-hidden bg-black">
+                    <Image
+                      src={g.image}
+                      alt={g.caption}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="object-cover opacity-90 transition-all duration-[1.3s] ease-out group-hover:scale-[1.06] group-hover:opacity-100"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20" />
+                    {/* cinematic hover bars */}
+                    <span className="absolute inset-x-0 top-0 h-1 bg-gold/80 opacity-0 transition-all duration-500 group-hover:opacity-100" />
+                    <span className="absolute inset-x-0 bottom-0 h-1 bg-gold/80 opacity-0 transition-all duration-500 group-hover:opacity-100" />
+                    {/* Stacked caption block — can never overlap */}
+                    <div className="absolute inset-x-4 bottom-4 sm:inset-x-5 sm:bottom-5">
+                      <p className="line-clamp-3 text-[12.5px] leading-snug text-white/90 sm:text-[13px]">
+                        {g.caption}
+                      </p>
+                      <p className="mt-2 translate-y-1 font-sans text-[8.5px] uppercase tracking-[0.28em] text-gold opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 sm:text-[9px]">
+                        Frame {String(i + 1).padStart(2, "0")}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ——— Scene 5 · Other units ——— */}
+        <section className="border-t border-white/10 bg-[#0d0d0b] py-16 md:py-20">
+          <div className="mx-auto max-w-7xl px-5 md:px-8">
+            <Reveal>
+              <p className="flex items-center gap-4 font-sans text-[10px] uppercase tracking-[0.4em] text-white/45">
+                <span className="h-px w-10 bg-gold" />
+                Other Units
+              </p>
+            </Reveal>
+            <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {others.map((o, i) => (
+                <Reveal key={o.slug} delay={i * 80} className="h-full">
+                  <CadetExploreLink
+                    href={`/cadeting/${o.slug}`}
+                    unitName={o.name}
+                    crest={o.crest}
+                    tagline={o.tagline}
+                    className="group flex h-full items-center gap-4 border border-white/12 bg-white/[0.02] p-5 transition-all duration-300 hover:border-gold/60 hover:bg-white/[0.05]"
+                  >
+                    <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold text-ink">
+                      <span className="absolute inset-[3px] rounded-full border border-ink/25" />
+                      <span className="font-display text-[11px] font-semibold">
+                        {o.crest}
+                      </span>
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-display text-base font-semibold tracking-[-0.01em] text-white">
+                        {o.name}
+                      </span>
+                      <span className="mt-0.5 block font-sans text-[9px] uppercase tracking-[0.2em] text-white/45">
+                        {o.strength}
+                      </span>
+                    </span>
+                    <ArrowRight
+                      size={15}
+                      className="slide-arrow ml-auto shrink-0 text-white/40 group-hover:text-gold"
+                    />
+                  </CadetExploreLink>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <Footer />
+      </CinematicIntro>
     </main>
   );
 }

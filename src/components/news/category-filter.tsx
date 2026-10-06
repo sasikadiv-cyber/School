@@ -1,13 +1,21 @@
 import Link from "next/link";
-import { CATEGORIES } from "@/lib/format";
 
-export function CategoryFilter({ active }: { active: string }) {
+export function CategoryFilter({
+  active,
+  categories,
+}: {
+  active: string;
+  categories: string[];
+}) {
   return (
     <div className="flex flex-wrap gap-2.5">
-      {CATEGORIES.map((category) => {
+      {["All", ...categories].map((category) => {
         const isActive =
           category === active || (category === "All" && active === "");
-        const href = category === "All" ? "/news" : `/news?category=${category}`;
+        const href =
+          category === "All"
+            ? "/news"
+            : `/news?category=${encodeURIComponent(category)}`;
 
         return (
           <Link

@@ -12,6 +12,7 @@ import { Eyebrow } from "@/components/eyebrow";
 import { SCENE } from "@/lib/media";
 import { UNITS } from "@/lib/units";
 import { Crest } from "@/components/crest";
+import { CadetExploreLink } from "@/components/cadeting/explore-link";
 
 export const dynamic = "force-dynamic";
 
@@ -143,11 +144,11 @@ export default async function CadetingPage() {
               return (
                 <Reveal key={u.name} delay={60}>
                   <div
-                    className={`group grid overflow-hidden rounded-3xl bg-card text-white transition-all duration-500 hover:shadow-lift lg:grid-cols-2 ${
+                    className={`group grid overflow-hidden rounded-2xl bg-card text-white transition-all duration-500 hover:shadow-lift lg:grid-cols-2 ${
                       flip ? "lg:[&>div:first-child]:order-2" : ""
                     }`}
                   >
-                    <div className="relative m-2.5 aspect-[16/10] overflow-hidden rounded-[1.25rem] bg-ink lg:aspect-auto lg:min-h-[320px]">
+                    <div className="relative m-2.5 aspect-[16/10] overflow-hidden rounded-[1rem] bg-ink lg:aspect-auto lg:min-h-[320px]">
                       <Image
                         src={u.image}
                         alt={u.name}
@@ -189,13 +190,16 @@ export default async function CadetingPage() {
                         ))}
                       </div>
 
-                      <Link
+                      <CadetExploreLink
                         href={`/cadeting/${u.slug}`}
+                        unitName={u.name}
+                        crest={u.crest}
+                        tagline={u.tagline}
                         className="mt-7 inline-flex items-center gap-2.5 self-start rounded-full bg-gold px-6 py-3 text-[13px] font-medium text-ink transition-colors duration-300 hover:bg-white"
                       >
                         Explore {u.name}
                         <ArrowRight size={15} className="slide-arrow" />
-                      </Link>
+                      </CadetExploreLink>
                     </div>
                   </div>
                 </Reveal>
@@ -226,7 +230,7 @@ export default async function CadetingPage() {
               const Icon = p.icon;
               return (
                 <Reveal key={p.title} delay={(i % 2) * 100} className="h-full">
-                  <div className="group flex h-full gap-6 rounded-3xl border border-fg/10 bg-surface p-8 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
+                  <div className="group flex h-full gap-6 rounded-2xl border border-fg/10 bg-surface p-8 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
                     <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-fg text-surface transition-colors duration-300 group-hover:bg-gold group-hover:text-ink">
                       <Icon size={18} />
                     </span>
@@ -256,14 +260,14 @@ export default async function CadetingPage() {
               </Reveal>
               <Reveal delay={120}>
                 <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                  A platoon that marches first
+                  Recent Cadet Honours
                 </h2>
               </Reveal>
 
               <div className="mt-10 space-y-4">
                 {honours.map((h, i) => (
                   <Reveal key={h.year} delay={i * 80}>
-                    <div className="flex items-center gap-5 rounded-2xl border border-fg/10 bg-surface-2 px-6 py-5 transition-colors hover:border-fg/25">
+                    <div className="flex items-center gap-5 rounded-xl border border-fg/10 bg-surface-2 px-6 py-5 transition-colors hover:border-fg/25">
                       <span className="rounded-full bg-gold px-4 py-1.5 font-display text-base font-semibold text-ink">
                         {h.year}
                       </span>
@@ -282,13 +286,13 @@ export default async function CadetingPage() {
               </Reveal>
               <Reveal delay={120}>
                 <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                  Led from the front
+                  Cadet Leadership
                 </h2>
               </Reveal>
 
               {commander && (
                 <Reveal delay={200}>
-                  <div className="mt-10 flex items-start gap-5 rounded-3xl bg-card p-7 text-white">
+                  <div className="mt-10 flex items-start gap-5 rounded-2xl bg-card p-7 text-white">
                     <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-gold font-display text-lg font-semibold text-ink">
                       RW
                     </span>
@@ -309,7 +313,7 @@ export default async function CadetingPage() {
               )}
 
               <Reveal delay={260}>
-                <div className="mt-6 flex flex-col items-start justify-between gap-6 rounded-3xl bg-card p-7 text-white md:flex-row md:items-center">
+                <div className="mt-6 flex flex-col items-start justify-between gap-6 rounded-2xl bg-card p-7 text-white md:flex-row md:items-center">
                   <div className="flex items-start gap-4">
                     <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold text-ink">
                       <Backpack size={19} />

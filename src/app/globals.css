@@ -51,15 +51,38 @@ body {
   color: #0b0b0a;
 }
 
+/* ---------- Premium minimal scrollbar ---------- */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0b0a;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #ffd444;
+  background: color-mix(in srgb, var(--fg) 22%, transparent);
   border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--fg) 22%, transparent) transparent;
+}
+*:hover {
+  scrollbar-color: var(--color-gold) transparent;
+}
+
+/* Dark-mode admin surfaces keep the same refined bar */
+.dark ::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
 }
 
 /* ---------- Keyframes ---------- */
@@ -138,23 +161,28 @@ body {
 }
 
 .timeline-rail {
-  position: relative;
+  /* Position comes from Tailwind (absolute) — do NOT set position here,
+     unlayered CSS overrides layered utilities and collapses the rail. */
   overflow: hidden;
 }
 .timeline-rail::after {
   content: "";
   position: absolute;
-  inset-inline: 0;
+  inset-inline: -1px;
   top: 0;
-  height: 12%;
+  height: 14%;
   background: linear-gradient(
     to bottom,
     transparent,
-    #ffd444 45%,
-    #ffd444 55%,
+    rgba(255, 212, 68, 0.9) 35%,
+    #ffd444 50%,
+    rgba(255, 212, 68, 0.9) 65%,
     transparent
   );
-  animation: railTravel 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  box-shadow:
+    0 0 8px 1px rgba(255, 212, 68, 0.65),
+    0 0 20px 4px rgba(255, 212, 68, 0.3);
+  animation: railTravel 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 .timeline-dot {
@@ -190,6 +218,255 @@ html.theming * {
   background-size: 180px 180px;
   opacity: 0.12;
   mix-blend-mode: overlay;
+}
+
+/* ---------- Events calendar: buttery month transitions ---------- */
+@keyframes calGridNext {
+  from {
+    opacity: 0;
+    transform: translateX(52px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+@keyframes calGridPrev {
+  from {
+    opacity: 0;
+    transform: translateX(-52px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+@keyframes calTitleNext {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+@keyframes calTitlePrev {
+  from {
+    opacity: 0;
+    transform: translateY(-22px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+@keyframes calItemUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cal-grid-next {
+  animation: calGridNext 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cal-grid-prev {
+  animation: calGridPrev 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cal-title-next {
+  animation: calTitleNext 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cal-title-prev {
+  animation: calTitlePrev 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cal-item {
+  animation: calItemUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------- Gallery: editorial entrances & lightbox ---------- */
+@keyframes gTileIn {
+  from {
+    opacity: 0;
+    transform: translateY(36px) scale(0.97);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+@keyframes gFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes gPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.965);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes gImgSwap {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+@keyframes gLineSweep {
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+.g-tile {
+  animation: gTileIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.g-fade {
+  animation: gFadeIn 0.35s ease-out both;
+}
+.g-panel {
+  animation: gPanelIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.g-img-swap {
+  animation: gImgSwap 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.g-line {
+  animation: gLineSweep 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+/* ---------- Cadeting: cinematic unit transition ---------- */
+@keyframes cineBarTop {
+  from {
+    transform: translateY(-101%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes cineBarBottom {
+  from {
+    transform: translateY(101%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes cineCrest {
+  from {
+    opacity: 0;
+    transform: scale(1.3);
+    filter: blur(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+@keyframes cineFadeSoft {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+@keyframes cineOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cineOverlayOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes cineContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes cineSheen {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+
+.cine-bar-top {
+  animation: cineBarTop 0.85s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+.cine-bar-bottom {
+  animation: cineBarBottom 0.85s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+.cine-crest {
+  animation: cineCrest 1.25s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+}
+.cine-name {
+  animation: cineFadeSoft 1.05s ease 0.95s both;
+}
+.cine-sub {
+  animation: cineFadeSoft 1.05s ease 1.25s both;
+}
+.cine-line {
+  animation: cineFadeSoft 0.9s ease 1.5s both;
+}
+.cine-overlay-in {
+  animation: cineOverlayIn 0.55s ease both;
+}
+.cine-overlay-out {
+  animation: cineOverlayOut 0.9s ease both;
+}
+.cine-content {
+  animation: cineContentIn 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cine-sheen {
+  animation: cineSheen 1.5s cubic-bezier(0.45, 0, 0.2, 1) 1.7s infinite;
 }
 
 /* Nav link underline sweep */

@@ -148,7 +148,7 @@ export default async function ArticlePage({
 
           {/* Author card */}
           <Reveal delay={120}>
-            <div className="mt-14 flex flex-wrap items-center justify-between gap-6 rounded-3xl bg-card px-7 py-7 text-white">
+            <div className="mt-14 flex flex-wrap items-center justify-between gap-6 rounded-2xl bg-card px-7 py-7 text-white">
               <div className="flex items-center gap-4">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold font-display text-lg font-semibold text-ink">
                   {post.author

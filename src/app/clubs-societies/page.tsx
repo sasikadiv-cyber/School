@@ -98,9 +98,9 @@ export default function ClubsSocietiesPage() {
           </Reveal>
           <Reveal delay={120}>
             <h2 className="mt-7 max-w-xl font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-              A society for every kind of{" "}
+              Our{" "}
               <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                brilliant
+                Clubs &amp; Societies
               </span>
             </h2>
           </Reveal>
@@ -109,7 +109,7 @@ export default function ClubsSocietiesPage() {
             {clubs.map((c, i) => {
               return (
                 <Reveal key={c.name} delay={(i % 3) * 90} className="h-full">
-                  <div className="group flex h-full flex-col rounded-3xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
+                  <div className="group flex h-full flex-col rounded-2xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
                     <div className="flex items-center justify-between">
                       <Crest initials={c.crest} label={c.name} />
                       <span className="font-sans text-[9px] uppercase tracking-[0.25em] text-fg/35">
@@ -135,7 +135,7 @@ export default function ClubsSocietiesPage() {
           </div>
 
           <Reveal delay={120}>
-            <div className="mt-14 flex flex-col items-start justify-between gap-8 rounded-3xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
+            <div className="mt-14 flex flex-col items-start justify-between gap-8 rounded-2xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
               <div>
                 <h3 className="font-display text-2xl font-semibold tracking-[-0.01em]">
                   And twenty-nine more

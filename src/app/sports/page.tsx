@@ -117,7 +117,8 @@ export default async function SportsPage() {
             className="animate-fade-up mt-6 max-w-xl text-base leading-relaxed text-white/65"
             style={{ animationDelay: "280ms" }}
           >
-            Character is built one match at a time — under floodlights, at
+            Sport is central to life at the college — building teamwork,
+            discipline and character under floodlights, at
             dawn sessions, and in the roar of a big match crowd.
           </p>
 
@@ -194,8 +195,8 @@ export default async function SportsPage() {
           <div className="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
             {programmes.map((p, i) => (
               <Reveal key={p.title} delay={i * 120} className="h-full">
-                <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-card text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
-                  <div className="relative m-2.5 mb-0 aspect-[16/10] overflow-hidden rounded-[1.25rem]">
+                <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-card text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
+                  <div className="relative m-2.5 mb-0 aspect-[16/10] overflow-hidden rounded-[1rem]">
                     <Image
                       src={p.image}
                       alt={p.title}
@@ -239,13 +240,13 @@ export default async function SportsPage() {
               </Reveal>
               <Reveal delay={120}>
                 <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                  Ten hectares of purpose
+                  Sports Facilities &amp; Grounds
                 </h2>
               </Reveal>
               <div className="mt-9 space-y-3">
                 {facilities.map((f, i) => (
                   <Reveal key={f} delay={i * 60}>
-                    <div className="flex items-center gap-4 rounded-2xl border border-fg/10 bg-surface px-5 py-4 transition-colors hover:border-fg/25">
+                    <div className="flex items-center gap-4 rounded-xl border border-fg/10 bg-surface px-5 py-4 transition-colors hover:border-fg/25">
                       <MapPin size={15} className="shrink-0 text-gold" />
                       <p className="text-[14.5px] font-medium">{f}</p>
                     </div>
@@ -261,13 +262,13 @@ export default async function SportsPage() {
               </Reveal>
               <Reveal delay={120}>
                 <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                  Led by professionals
+                  Professional Coaching Staff
                 </h2>
               </Reveal>
               <div className="mt-9 space-y-4">
                 {coaches.map((c) => (
                   <Reveal key={c.id} delay={80}>
-                    <div className="flex items-start gap-5 rounded-3xl bg-card p-6 text-white">
+                    <div className="flex items-start gap-5 rounded-2xl bg-card p-6 text-white">
                       <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-fg font-display text-base font-semibold text-surface dark:bg-gold dark:text-ink">
                         {c.name
                           .replace(/^(Mr|Mrs|Ms|Dr|Capt)\.\s*/, "")
@@ -294,7 +295,7 @@ export default async function SportsPage() {
                   </Reveal>
                 ))}
                 <Reveal delay={160}>
-                  <div className="flex items-center gap-4 rounded-3xl border border-dashed border-fg/20 p-6">
+                  <div className="flex items-center gap-4 rounded-2xl border border-dashed border-fg/20 p-6">
                     <Target size={18} className="shrink-0 text-fg/40" />
                     <p className="text-[13.5px] leading-relaxed text-fg/55">
                       Former national players and Level II coaches head every
@@ -312,7 +313,7 @@ export default async function SportsPage() {
       <section className="bg-surface py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <Reveal>
-            <div className="flex flex-col items-start justify-between gap-8 rounded-3xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
+            <div className="flex flex-col items-start justify-between gap-8 rounded-2xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
               <div className="flex items-start gap-5">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold text-ink">
                   <Dumbbell size={22} />

@@ -139,9 +139,9 @@ export default async function AchievementsPage() {
               </Reveal>
               <Reveal delay={120}>
                 <h2 className="mt-7 max-w-xl font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                  The freshest{" "}
+                  Recent{" "}
                   <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                    silverware
+                    Achievements
                   </span>
                 </h2>
               </Reveal>
@@ -158,8 +158,8 @@ export default async function AchievementsPage() {
             {trophyWall.map((t, i) => {
               return (
                 <Reveal key={t.title} delay={(i % 3) * 100} className="h-full">
-                  <div className="group flex h-full flex-col overflow-hidden rounded-3xl bg-card text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
-                    <div className="relative m-2.5 mb-0 aspect-[16/10] overflow-hidden rounded-[1.25rem] bg-ink">
+                  <div className="group flex h-full flex-col overflow-hidden rounded-2xl bg-card text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
+                    <div className="relative m-2.5 mb-0 aspect-[16/10] overflow-hidden rounded-[1rem] bg-ink">
                       <Image
                         src={t.image}
                         alt={t.title}
@@ -195,7 +195,7 @@ export default async function AchievementsPage() {
           <div className="mt-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {ledger.map((s, i) => (
               <Reveal key={s.label} delay={i * 100} className="h-full">
-                <div className="h-full rounded-3xl border border-fg/10 bg-surface-2 p-7 dark:border-transparent dark:bg-card">
+                <div className="h-full rounded-2xl border border-fg/10 bg-surface-2 p-7 dark:border-transparent dark:bg-card">
                   <p className="font-display text-4xl font-semibold tracking-[-0.03em] lg:text-5xl dark:text-white">
                     {s.value}
                   </p>
@@ -221,7 +221,7 @@ export default async function AchievementsPage() {
                 </Reveal>
                 <Reveal delay={120}>
                   <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                    The stories behind the medals
+                    Achievement Highlights
                   </h2>
                 </Reveal>
               </div>

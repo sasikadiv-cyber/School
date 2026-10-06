@@ -1,0 +1,107 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+
+type CineOverlayProps = {
+  crest: string;
+  name: string;
+  tagline: string;
+  /** Fade the card away. */
+  closing?: boolean;
+  /** Skip the reveal choreography (card appears already composed). */
+  instant?: boolean;
+};
+
+/** The visual card itself — no mounting logic, so it can render during SSR. */
+export function CineCard({
+  crest,
+  name,
+  tagline,
+  closing = false,
+  instant = false,
+}: CineOverlayProps) {
+  return (
+    <div
+      className={`fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-hidden bg-[#060605] ${
+        closing
+          ? "cine-overlay-out pointer-events-none"
+          : instant
+            ? ""
+            : "cine-overlay-in"
+      }`}
+      aria-hidden="true"
+    >
+      {/* Letterbox bars */}
+      <span
+        className={`absolute inset-x-0 top-0 h-10 bg-black sm:h-14 md:h-20 ${
+          instant ? "" : "cine-bar-top"
+        }`}
+      />
+      <span
+        className={`absolute inset-x-0 bottom-0 h-10 bg-black sm:h-14 md:h-20 ${
+          instant ? "" : "cine-bar-bottom"
+        }`}
+      />
+      <div className="grain pointer-events-none absolute inset-0" />
+
+      {/* Content column — sized to the viewport, never to a parent card */}
+      <div className="relative flex w-full max-w-xl flex-col items-center px-6 text-center">
+        <span
+          className={`relative grid h-20 w-20 shrink-0 place-items-center rounded-full bg-gold text-ink ring-2 ring-gold/70 sm:h-24 sm:w-24 md:h-28 md:w-28 ${
+            instant ? "" : "cine-crest"
+          }`}
+        >
+          <span className="absolute inset-[6px] rounded-full border border-ink/25" />
+          <span className="font-display text-lg font-semibold tracking-[-0.02em] sm:text-xl md:text-2xl">
+            {crest}
+          </span>
+        </span>
+
+        <p
+          className={`mt-6 max-w-full text-balance font-display text-xl font-semibold leading-tight tracking-[-0.02em] text-white sm:text-2xl md:mt-8 md:text-3xl ${
+            instant ? "" : "cine-name"
+          }`}
+        >
+          {name}
+        </p>
+
+        <p
+          className={`mt-3 max-w-full text-balance font-sans text-[8.5px] uppercase leading-relaxed tracking-[0.34em] text-gold sm:text-[9px] sm:tracking-[0.4em] ${
+            instant ? "" : "cine-sub"
+          }`}
+        >
+          {tagline}
+        </p>
+
+        {/* Film leader line */}
+        <span
+          className={`relative mt-7 block h-px w-16 overflow-hidden bg-white/15 md:mt-9 ${
+            instant ? "" : "cine-line"
+          }`}
+        >
+          <span className="cine-sheen absolute inset-y-0 left-0 block w-6 bg-gold" />
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Portal version — used for the Explore exit card.
+ *
+ * A portal is required there because the triggering card sits inside a
+ * transformed ancestor (Reveal), which would otherwise become the
+ * containing block for `position: fixed` and clip the overlay.
+ */
+export function CineOverlay(props: CineOverlayProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(<CineCard {...props} />, document.body);
+}

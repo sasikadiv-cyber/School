@@ -6,9 +6,9 @@ import { formatDate } from "@/lib/format";
 
 export function PostCard({ post }: { post: Post }) {
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-card text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-card text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
       <Link href={`/news/${post.slug}`} className="flex h-full flex-col">
-        <div className="relative m-2.5 mb-0 aspect-[16/10] overflow-hidden rounded-[1.25rem]">
+        <div className="relative m-2.5 mb-0 aspect-[16/10] overflow-hidden rounded-[1rem]">
           <Image
             src={post.image}
             alt={post.title}

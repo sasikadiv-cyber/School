@@ -24,6 +24,7 @@ export const metadata = {
 const streams = [
   {
     icon: Microscope,
+    slug: "biological-science",
     name: "Biological Science",
     subjects: ["Biology", "Chemistry", "Physics / Agro-Science"],
     detail:
@@ -32,6 +33,7 @@ const streams = [
   },
   {
     icon: TrendingUp,
+    slug: "physical-science",
     name: "Physical Science",
     subjects: ["Combined Mathematics", "Physics", "Chemistry / ICT"],
     detail:
@@ -40,6 +42,7 @@ const streams = [
   },
   {
     icon: Landmark,
+    slug: "commerce",
     name: "Commerce",
     subjects: ["Accounting", "Business Studies", "Economics"],
     detail:
@@ -48,6 +51,7 @@ const streams = [
   },
   {
     icon: Palette,
+    slug: "arts",
     name: "Arts",
     subjects: ["History", "Political Science", "English / Sinhala Literature"],
     detail:
@@ -130,9 +134,9 @@ export default function AdvancedLevelPage() {
           </Reveal>
           <Reveal delay={120}>
             <h2 className="mt-7 max-w-2xl font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-              Choose your{" "}
+              A/L Subject{" "}
               <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                field
+                Streams
               </span>
             </h2>
           </Reveal>
@@ -142,16 +146,16 @@ export default function AdvancedLevelPage() {
               const Icon = s.icon;
               return (
                 <Reveal key={s.name} delay={i * 100} className="h-full">
-                  <div className="flex h-full flex-col rounded-3xl bg-card p-8 text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift md:p-9">
-                    <div className="flex items-center justify-between">
-                      <span className="grid h-12 w-12 place-items-center rounded-full bg-gold text-ink">
+                  <div className="flex h-full min-w-0 flex-col rounded-2xl bg-card p-6 text-white transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift sm:p-8 md:p-9">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold text-ink sm:h-12 sm:w-12">
                         <Icon size={21} />
                       </span>
-                      <span className="rounded-full border border-white/15 px-3.5 py-1.5 font-sans text-[9px] uppercase tracking-[0.22em] text-mist">
+                      <span className="max-w-full rounded-full border border-white/15 px-3 py-1.5 text-right font-sans text-[8px] uppercase leading-relaxed tracking-[0.16em] text-mist sm:px-3.5 sm:text-[9px] sm:tracking-[0.22em]">
                         {s.intake}
                       </span>
                     </div>
-                    <h3 className="mt-6 font-display text-3xl font-semibold tracking-[-0.02em]">
+                    <h3 className="mt-5 break-words font-display text-2xl font-semibold leading-tight tracking-[-0.02em] sm:mt-6 sm:text-3xl">
                       {s.name}
                     </h3>
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -164,9 +168,17 @@ export default function AdvancedLevelPage() {
                         </span>
                       ))}
                     </div>
-                    <p className="mt-5 text-[14.5px] leading-relaxed text-white/60">
+                    <p className="mt-5 flex-1 text-[14.5px] leading-relaxed text-white/60">
                       {s.detail}
                     </p>
+
+                    <Link
+                      href={`/advanced-level/${s.slug}`}
+                      className="group/btn mt-7 inline-flex max-w-full items-center justify-center gap-2.5 self-start rounded-full bg-gold px-5 py-3 text-center text-[12px] font-medium leading-snug text-ink transition-colors duration-300 hover:bg-white sm:px-6 sm:text-[13px]"
+                    >
+                      <span className="break-words">Explore {s.name}</span>
+                      <ArrowRight size={15} className="slide-arrow shrink-0" />
+                    </Link>
                   </div>
                 </Reveal>
               );
@@ -185,7 +197,7 @@ export default function AdvancedLevelPage() {
               </Reveal>
               <Reveal delay={120}>
                 <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                  Built around the student
+                  Student-Centred Guidance
                 </h2>
               </Reveal>
               <Reveal delay={200}>
@@ -202,7 +214,7 @@ export default function AdvancedLevelPage() {
                 const Icon = f.icon;
                 return (
                   <Reveal key={f.title} delay={i * 100}>
-                    <div className="group flex gap-6 rounded-3xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 md:p-8">
+                    <div className="group flex gap-6 rounded-2xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 md:p-8">
                       <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-fg text-surface">
                         <Icon size={18} />
                       </span>
@@ -232,7 +244,7 @@ export default function AdvancedLevelPage() {
           <div className="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {resultStrip.map((s, i) => (
               <Reveal key={s.label} delay={i * 100} className="h-full">
-                <div className="h-full rounded-3xl bg-card p-7 transition-all duration-500 hover:-translate-y-1">
+                <div className="h-full rounded-2xl bg-card p-7 transition-all duration-500 hover:-translate-y-1">
                   <p className="font-display text-4xl font-semibold tracking-[-0.03em] text-white lg:text-5xl">
                     {s.value}
                   </p>
@@ -246,7 +258,7 @@ export default function AdvancedLevelPage() {
           </div>
 
           <Reveal delay={140}>
-            <div className="mt-14 flex flex-col items-start justify-between gap-8 rounded-3xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
+            <div className="mt-14 flex flex-col items-start justify-between gap-8 rounded-2xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
               <div>
                 <h3 className="font-display text-2xl font-semibold tracking-[-0.01em]">
                   Join the Grade 12 cohort of 2027
@@ -264,7 +276,7 @@ export default function AdvancedLevelPage() {
                   View Exam Results
                 </Link>
                 <Link
-                  href="/contact?type=Admissions"
+                  href="/admissions"
                   className="inline-flex items-center gap-2.5 rounded-full bg-gold px-6 py-3.5 text-[13px] font-medium text-ink transition-colors hover:bg-white"
                 >
                   Apply Now

@@ -52,6 +52,10 @@ export default async function NewsPage({
     (p) => p.category === "Announcements",
   ).length;
 
+  const categories = Array.from(
+    new Set(allPosts.map((post) => post.category)),
+  ).sort();
+
   return (
     <main className="relative bg-surface text-fg">
       <Navbar />
@@ -123,9 +127,9 @@ export default async function NewsPage({
             <Reveal delay={120}>
               <Link
                 href={`/news/${featured.slug}`}
-                className="group mt-8 grid items-center gap-10 overflow-hidden rounded-[2rem] bg-card p-2.5 text-white lg:grid-cols-2 lg:gap-0"
+                className="group mt-8 grid items-center gap-10 overflow-hidden rounded-[1.5rem] bg-card p-2.5 text-white lg:grid-cols-2 lg:gap-0"
               >
-                <div className="relative aspect-[16/11] overflow-hidden rounded-[1.5rem]">
+                <div className="relative aspect-[16/11] overflow-hidden rounded-[1.25rem]">
                   <Image
                     src={featured.image}
                     alt={featured.title}
@@ -189,7 +193,7 @@ export default async function NewsPage({
               </Reveal>
             </div>
             <Reveal delay={200}>
-              <CategoryFilter active={category} />
+              <CategoryFilter active={category} categories={categories} />
             </Reveal>
           </div>
 
@@ -202,7 +206,7 @@ export default async function NewsPage({
               ))}
             </div>
           ) : (
-            <div className="mt-12 rounded-3xl border border-dashed border-fg/20 px-8 py-20 text-center">
+            <div className="mt-12 rounded-2xl border border-dashed border-fg/20 px-8 py-20 text-center">
               <p className="font-display text-2xl font-semibold">
                 No stories in this category yet.
               </p>
@@ -228,9 +232,9 @@ export default async function NewsPage({
               </Reveal>
               <Reveal delay={120}>
                 <h2 className="mt-7 max-w-xl font-display text-4xl font-semibold leading-[1.1] tracking-[-0.02em] md:text-5xl">
-                  Mark your{" "}
+                  Upcoming{" "}
                   <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                    calendar
+                    Events
                   </span>
                 </h2>
               </Reveal>
@@ -258,7 +262,7 @@ export default async function NewsPage({
           </Reveal>
 
           <Reveal delay={120}>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4 rounded-3xl bg-card px-8 py-10 text-center text-white">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4 rounded-2xl bg-card px-8 py-10 text-center text-white">
               <CalendarDays size={20} className="text-gold" />
               <p className="font-display text-xl font-semibold tracking-[-0.01em] md:text-2xl">
                 Never miss a college event

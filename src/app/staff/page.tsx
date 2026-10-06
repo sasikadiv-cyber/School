@@ -127,8 +127,9 @@ export default async function StaffPage() {
             to teach it kindly.
           </p>
 
+          {/* 2 × 2 on mobile / tablet, single row from md up */}
           <div
-            className="animate-fade-up mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/15 pt-6"
+            className="animate-fade-up mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-white/15 pt-5 sm:mt-10 sm:gap-x-10 sm:pt-6 md:grid-cols-4"
             style={{ animationDelay: "400ms" }}
           >
             {[
@@ -137,11 +138,11 @@ export default async function StaffPage() {
               { value: "85%", label: "Postgraduate Qualified" },
               { value: "1:14", label: "Teacher–Student Ratio" },
             ].map((s) => (
-              <div key={s.label}>
-                <p className="font-display text-3xl font-semibold tracking-[-0.02em]">
+              <div key={s.label} className="min-w-0">
+                <p className="break-words font-display text-2xl font-semibold tracking-[-0.02em] sm:text-3xl">
                   {s.value}
                 </p>
-                <p className="mt-1 font-sans text-[9px] uppercase tracking-[0.28em] text-white/45">
+                <p className="mt-1 break-words font-sans text-[8px] uppercase leading-relaxed tracking-[0.2em] text-white/45 sm:text-[9px] sm:tracking-[0.28em]">
                   {s.label}
                 </p>
               </div>
@@ -185,7 +186,7 @@ export default async function StaffPage() {
               <Reveal delay={80}>
                 <Link
                   href="/principals-message"
-                  className="group relative block overflow-hidden rounded-3xl bg-card text-white"
+                  className="group relative block overflow-hidden rounded-2xl bg-card text-white"
                 >
                   <Image
                     src="/images/principal.jpg"
@@ -218,8 +219,8 @@ export default async function StaffPage() {
             <div className="grid gap-7">
               {leadership.map((m, i) => (
                 <Reveal key={m.id} delay={120 + i * 90} className="h-full">
-                  <div className="group flex h-full items-center gap-5 overflow-hidden rounded-3xl bg-card p-3 pr-7 text-white transition-all duration-500 hover:-translate-y-1 hover:shadow-lift">
-                    <div className="relative h-32 w-28 shrink-0 overflow-hidden rounded-2xl bg-ink sm:h-36 sm:w-32">
+                  <div className="group flex h-full items-center gap-5 overflow-hidden rounded-2xl bg-card p-3 pr-7 text-white transition-all duration-500 hover:-translate-y-1 hover:shadow-lift">
+                    <div className="relative h-32 w-28 shrink-0 overflow-hidden rounded-xl bg-ink sm:h-36 sm:w-32">
                       <Image
                         src={DEPUTY_PHOTO[i % DEPUTY_PHOTO.length]}
                         alt={m.name}
@@ -260,7 +261,7 @@ export default async function StaffPage() {
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {academic.map((m, i) => (
               <Reveal key={m.id} delay={(i % 3) * 90} className="h-full">
-                <div className="group flex h-full items-start gap-5 rounded-3xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
+                <div className="group flex h-full items-start gap-5 rounded-2xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
                   <StaffAvatar member={m} small />
                   <div>
                     <p className="font-sans text-[9px] uppercase tracking-[0.28em] text-fg/40">
@@ -295,7 +296,7 @@ export default async function StaffPage() {
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {sports.map((m, i) => (
               <Reveal key={m.id} delay={(i % 3) * 90} className="h-full">
-                <div className="group flex h-full items-start gap-5 rounded-3xl border border-fg/10 bg-surface-2 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
+                <div className="group flex h-full items-start gap-5 rounded-2xl border border-fg/10 bg-surface-2 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
                   <StaffAvatar member={m} small />
                   <div>
                     <p className="font-sans text-[9px] uppercase tracking-[0.28em] text-fg/40">
@@ -330,7 +331,7 @@ export default async function StaffPage() {
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {arts.map((m, i) => (
               <Reveal key={m.id} delay={(i % 3) * 90} className="h-full">
-                <div className="group flex h-full items-start gap-5 rounded-3xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
+                <div className="group flex h-full items-start gap-5 rounded-2xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
                   <StaffAvatar member={m} small />
                   <div>
                     <p className="font-sans text-[9px] uppercase tracking-[0.28em] text-fg/40">
@@ -353,7 +354,7 @@ export default async function StaffPage() {
 
           {/* Careers CTA */}
           <Reveal delay={120}>
-            <div className="mt-14 flex flex-col items-start justify-between gap-8 rounded-3xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
+            <div className="mt-14 flex flex-col items-start justify-between gap-8 rounded-2xl bg-card p-8 text-white md:flex-row md:items-center md:p-12">
               <div className="flex items-start gap-5">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold text-ink">
                   <GraduationCap size={22} />

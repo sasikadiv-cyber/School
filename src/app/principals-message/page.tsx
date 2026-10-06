@@ -86,10 +86,10 @@ export default function PrincipalsMessagePage() {
               <div className="lg:sticky lg:top-28">
                 <div className="relative mx-auto max-w-md lg:max-w-none">
                   <div
-                    className="absolute -bottom-4 -right-4 h-full w-full rounded-[2.25rem] border border-fg/10"
+                    className="absolute -bottom-4 -right-4 h-full w-full rounded-[1.5rem] border border-fg/10"
                     aria-hidden="true"
                   />
-                  <div className="relative overflow-hidden rounded-[2.25rem] bg-ink">
+                  <div className="relative overflow-hidden rounded-[1.5rem] bg-ink">
                     <Image
                       src="/images/principal.jpg"
                       alt="Mr. Dhammika Hewawasam"
@@ -97,7 +97,7 @@ export default function PrincipalsMessagePage() {
                       height={1200}
                       className="h-auto w-full object-cover"
                     />
-                    <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-3xl bg-white px-5 py-4">
+                    <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-2xl bg-white px-5 py-4">
                       <div>
                         <p className="font-display text-lg font-semibold leading-tight tracking-[-0.01em] text-ink">
                           Mr. Dhammika Hewawasam
@@ -119,7 +119,7 @@ export default function PrincipalsMessagePage() {
                     const Icon = f.icon;
                     return (
                       <Reveal key={f.label} delay={i * 90}>
-                        <div className="flex items-start gap-4 rounded-3xl border border-fg/10 bg-surface-2 p-5">
+                        <div className="flex items-start gap-4 rounded-2xl border border-fg/10 bg-surface-2 p-5">
                           <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold text-ink">
                             <Icon size={17} />
                           </span>
@@ -150,12 +150,10 @@ export default function PrincipalsMessagePage() {
 
               <Reveal delay={160}>
                 <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.15] tracking-[-0.02em] md:text-[2.9rem]">
-                  Every boy carries a spark. Our duty is to turn that spark
-                  into a{" "}
+                  A Message from{" "}
                   <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                    flame
+                    Our Principal
                   </span>
-                  .
                 </h2>
               </Reveal>
 

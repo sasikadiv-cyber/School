@@ -3,7 +3,11 @@ import { ArrowRight, Quote } from "lucide-react";
 import { Eyebrow } from "@/components/eyebrow";
 import { Reveal } from "@/components/reveal";
 
-export function PrincipalMessage() {
+export function PrincipalMessage({
+  content = {},
+}: {
+  content?: Record<string, string>;
+}) {
   return (
     <section className="relative overflow-hidden bg-surface-2 py-24 md:py-32">
       <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-5 md:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
@@ -11,10 +15,10 @@ export function PrincipalMessage() {
         <Reveal>
           <div className="relative mx-auto max-w-md lg:max-w-none">
             <div
-              className="absolute -bottom-4 -right-4 h-full w-full rounded-[2.25rem] border border-fg/10"
+              className="absolute -bottom-4 -right-4 h-full w-full rounded-[1.5rem] border border-fg/10"
               aria-hidden="true"
             />
-            <div className="relative overflow-hidden rounded-[2.25rem] bg-ink">
+            <div className="relative overflow-hidden rounded-[1.5rem] bg-ink">
               <Image
                 src="/images/principal.jpg"
                 alt="Mr. Dhammika Hewawasam, Principal of St. Thomas' College, Matale"
@@ -22,7 +26,7 @@ export function PrincipalMessage() {
                 height={1200}
                 className="h-auto w-full object-cover transition-transform duration-[1.4s] ease-out hover:scale-[1.03]"
               />
-              <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-3xl bg-white px-5 py-4">
+              <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-2xl bg-white px-5 py-4">
                 <div>
                   <p className="font-display text-lg font-semibold leading-tight tracking-[-0.01em] text-ink">
                     Mr. Dhammika Hewawasam
@@ -42,33 +46,23 @@ export function PrincipalMessage() {
         {/* Message */}
         <div>
           <Reveal delay={100}>
-            <Eyebrow>Principal&apos;s Message</Eyebrow>
+            <Eyebrow>{content.eyebrow ?? "Principal's Message"}</Eyebrow>
           </Reveal>
           <Reveal delay={180}>
             <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.15] tracking-[-0.02em] text-fg md:text-[3.4rem]">
-              Every boy carries a spark. Our duty, every single day, is to
-              turn that spark into a{" "}
-              <span className="underline decoration-gold decoration-[3px] underline-offset-8">
-                flame
-              </span>
-              .
+              {content.title ?? "Nurturing every student to reach his fullest potential."}
             </h2>
           </Reveal>
           <Reveal delay={260}>
             <p className="mt-8 max-w-xl text-[15.5px] leading-relaxed text-fg/60 md:text-base">
-              For over 150 years, St. Thomas&apos; College has believed that
-              true education is measured not only in grades, but in grace —
-              the quiet confidence of a boy who knows who he is. We pair
-              rigorous scholarship with sport, art, service and faith in one
-              another, so that every Thomian leaves our gates ready to stand
-              tall in any room in the world.
+              {content.description ??
+                "For over 150 years, St. Thomas' College has believed that true education is measured not only by results, but by character. We combine strong academics with sport, the arts and service, so that every Thomian leaves our gates as a confident, disciplined and responsible young man."}
             </p>
           </Reveal>
           <Reveal delay={340}>
             <p className="mt-6 max-w-xl text-[15.5px] leading-relaxed text-fg/60">
-              I invite you to walk our corridors, hear our choir, and stand
-              at the boundary edge on a Battle of the Golds morning — and
-              feel what makes this place extraordinary.
+              {content.secondary ??
+                "I invite you to walk our corridors, hear our choir, and stand at the boundary edge on a Battle of the Golds morning — and feel what makes this place extraordinary."}
             </p>
           </Reveal>
           <Reveal delay={420}>
@@ -92,7 +86,7 @@ export function PrincipalMessage() {
               href="/principals-message"
               className="group mt-9 inline-flex items-center gap-3 font-sans text-[11px] uppercase tracking-[0.25em] text-fg"
             >
-              Read the full message
+              {content.buttonLabel ?? "Read the full message"}
               <span className="h-px w-10 bg-fg/30 transition-all duration-500 group-hover:w-16 group-hover:bg-gold" />
               <ArrowRight size={14} className="slide-arrow" />
             </a>

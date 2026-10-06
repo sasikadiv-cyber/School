@@ -4,13 +4,13 @@ import { useState, useTransition } from "react";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 
 const INQUIRY_TYPES = [
-  "Admissions (2027 Intake)",
   "General Inquiries",
   "Academics & Scholarships",
   "Sports & Co-Curricular",
   "Old Thomians' Association",
   "Media & Press",
 ];
+
 
 const GRADES = [
   "Grade 6 (Primary to Middle)",
@@ -21,11 +21,11 @@ const GRADES = [
 
 export function ContactForm({ initialType = "" }: { initialType?: string }) {
   const [inquiryType, setInquiryType] = useState(() => {
-    if (!initialType) return "Admissions (2027 Intake)";
+    if (!initialType) return "General Inquiries";
     const found = INQUIRY_TYPES.find((t) =>
       t.toLowerCase().includes(initialType.toLowerCase()),
     );
-    return found || "Admissions (2027 Intake)";
+    return found || "General Inquiries";
   });
 
   const [name, setName] = useState("");
@@ -87,7 +87,7 @@ export function ContactForm({ initialType = "" }: { initialType?: string }) {
   };
 
   return (
-    <div className="rounded-3xl border border-fg/10 bg-surface p-8 shadow-soft md:p-12">
+    <div className="rounded-2xl border border-fg/10 bg-surface p-8 shadow-soft md:p-12">
       {success ? (
         <div className="animate-fade-up py-8 text-center">
           <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-gold/20 text-gold">
@@ -153,7 +153,7 @@ export function ContactForm({ initialType = "" }: { initialType?: string }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Mr. Sahan Jayawardena"
-                className="mt-2 w-full rounded-2xl border border-fg/15 bg-transparent px-4 py-3 text-sm text-fg placeholder:text-fg/30 transition-colors focus:border-gold focus:outline-none"
+                className="mt-2 w-full rounded-xl border border-fg/15 bg-transparent px-4 py-3 text-sm text-fg placeholder:text-fg/30 transition-colors focus:border-gold focus:outline-none"
               />
             </div>
 
@@ -171,7 +171,7 @@ export function ContactForm({ initialType = "" }: { initialType?: string }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="sahan@example.com"
-                className="mt-2 w-full rounded-2xl border border-fg/15 bg-transparent px-4 py-3 text-sm text-fg placeholder:text-fg/30 transition-colors focus:border-gold focus:outline-none"
+                className="mt-2 w-full rounded-xl border border-fg/15 bg-transparent px-4 py-3 text-sm text-fg placeholder:text-fg/30 transition-colors focus:border-gold focus:outline-none"
               />
             </div>
           </div>
@@ -191,7 +191,7 @@ export function ContactForm({ initialType = "" }: { initialType?: string }) {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+94 77 123 4567"
-                className="mt-2 w-full rounded-2xl border border-fg/15 bg-transparent px-4 py-3 text-sm text-fg placeholder:text-fg/30 transition-colors focus:border-gold focus:outline-none"
+                className="mt-2 w-full rounded-xl border border-fg/15 bg-transparent px-4 py-3 text-sm text-fg placeholder:text-fg/30 transition-colors focus:border-gold focus:outline-none"
               />
             </div>
 
@@ -207,7 +207,7 @@ export function ContactForm({ initialType = "" }: { initialType?: string }) {
                   id="grade"
                   value={grade}
                   onChange={(e) => setGrade(e.target.value)}
-                  className="mt-2 w-full rounded-2xl border border-fg/15 bg-surface px-4 py-3 text-sm text-fg transition-colors focus:border-gold focus:outline-none"
+                  className="mt-2 w-full rounded-xl border border-fg/15 bg-surface px-4 py-3 text-sm text-fg transition-colors focus:border-gold focus:outline-none"
                 >
                   <option value="">Select Target Grade</option>
                   {GRADES.map((g) => (
@@ -234,12 +234,12 @@ export function ContactForm({ initialType = "" }: { initialType?: string }) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Please provide details regarding your inquiry..."
-              className="mt-2 w-full rounded-2xl border border-fg/15 bg-transparent px-4 py-3 text-sm text-fg placeholder:text-fg/30 transition-colors focus:border-gold focus:outline-none"
+              className="mt-2 w-full rounded-xl border border-fg/15 bg-transparent px-4 py-3 text-sm text-fg placeholder:text-fg/30 transition-colors focus:border-gold focus:outline-none"
             />
           </div>
 
           {error && (
-            <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-600 dark:text-red-400">
+            <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-600 dark:text-red-400">
               {error}
             </div>
           )}

@@ -1,21 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Building2,
-  Clock,
-  GraduationCap,
-  Mail,
-  MapPin,
-  Phone,
-  ShieldAlert,
-  Trophy,
-  Users,
-} from "lucide-react";
+import { Clock, MapPin, Phone, ShieldAlert } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
 import { ContactForm } from "@/components/contact/contact-form";
+import {
+  DepartmentCards,
+  type Department,
+} from "@/components/contact/department-cards";
 
 export const metadata = {
   title: "Contact & Admissions — St. Thomas' College",
@@ -23,34 +17,46 @@ export const metadata = {
     "Get in touch with the admissions office, administration, or campus registry of St. Thomas' College, Matale.",
 };
 
-const DEPARTMENTS = [
+const DEPARTMENTS: Department[] = [
   {
-    icon: GraduationCap,
+    icon: "graduation",
     name: "Admissions & Registry",
     phone: "+94 66 222 0175",
     email: "admissions@stcmatale.lk",
     hours: "Mon – Fri: 8.00 a.m. – 3.00 p.m.",
+    detail:
+      "Applications for the 2027 Grade 6 intake and Advanced Level admissions, transfers and student records.",
+    slots: ["8.00 a.m.", "9.00 a.m.", "10.00 a.m.", "11.00 a.m.", "1.00 p.m.", "2.00 p.m."],
   },
   {
-    icon: Building2,
+    icon: "building",
     name: "Principal's Secretariat",
     phone: "+94 66 222 0176",
     email: "principal@stcmatale.lk",
     hours: "By prior appointment only",
+    detail:
+      "Meetings with the Principal are arranged only with a confirmed appointment booked at least two working days ahead.",
+    slots: ["9.00 a.m.", "10.00 a.m.", "11.00 a.m.", "2.00 p.m."],
   },
   {
-    icon: Trophy,
+    icon: "trophy",
     name: "Sports & Pavilion Complex",
     phone: "+94 66 222 0177",
     email: "sports@stcmatale.lk",
     hours: "Mon – Sat: 6.30 a.m. – 6.00 p.m.",
+    detail:
+      "Sports admissions, coaching enrolment, pavilion and ground bookings, and colours award inquiries.",
+    slots: ["6.30 a.m.", "8.00 a.m.", "1.00 p.m.", "2.00 p.m.", "3.00 p.m."],
   },
   {
-    icon: Users,
+    icon: "users",
     name: "Old Thomians' Association",
     phone: "+94 66 222 0173",
     email: "oba@stcmatale.lk",
     hours: "Wed & Sat: 9.00 a.m. – 1.00 p.m.",
+    detail:
+      "Membership, the annual Sports Festival, Colours Nite and the Old Thomians' branch network.",
+    slots: ["9.00 a.m.", "10.00 a.m.", "11.00 a.m.", "12.00 noon"],
   },
 ];
 
@@ -129,7 +135,7 @@ export default async function ContactPage({
               {/* Quick Contact Cards */}
               <div className="mt-10 space-y-4">
                 <Reveal delay={240}>
-                  <div className="flex items-start gap-4 rounded-3xl border border-fg/10 bg-surface-2 p-6 transition-colors hover:border-fg/20">
+                  <div className="flex items-start gap-4 rounded-2xl border border-fg/10 bg-surface-2 p-6 transition-colors hover:border-fg/20">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold text-ink">
                       <MapPin size={18} />
                     </span>
@@ -148,7 +154,7 @@ export default async function ContactPage({
                 </Reveal>
 
                 <Reveal delay={280}>
-                  <div className="flex items-start gap-4 rounded-3xl border border-fg/10 bg-surface-2 p-6 transition-colors hover:border-fg/20">
+                  <div className="flex items-start gap-4 rounded-2xl border border-fg/10 bg-surface-2 p-6 transition-colors hover:border-fg/20">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold text-ink">
                       <Phone size={18} />
                     </span>
@@ -167,7 +173,7 @@ export default async function ContactPage({
                 </Reveal>
 
                 <Reveal delay={320}>
-                  <div className="flex items-start gap-4 rounded-3xl border border-fg/10 bg-surface-2 p-6 transition-colors hover:border-fg/20">
+                  <div className="flex items-start gap-4 rounded-2xl border border-fg/10 bg-surface-2 p-6 transition-colors hover:border-fg/20">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold text-ink">
                       <Clock size={18} />
                     </span>
@@ -211,40 +217,14 @@ export default async function ContactPage({
             </Reveal>
           </div>
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {DEPARTMENTS.map((dept, i) => {
-              const Icon = dept.icon;
-              return (
-                <Reveal key={dept.name} delay={i * 90} className="h-full">
-                  <div className="flex h-full flex-col justify-between rounded-3xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-soft">
-                    <div>
-                      <span className="grid h-11 w-11 place-items-center rounded-full bg-fg text-surface">
-                        <Icon size={18} />
-                      </span>
-                      <h3 className="mt-5 font-display text-xl font-semibold tracking-[-0.01em]">
-                        {dept.name}
-                      </h3>
-                      <div className="mt-4 space-y-2 text-sm text-fg/60">
-                        <p className="flex items-center gap-2">
-                          <Phone size={13} className="text-gold" />
-                          {dept.phone}
-                        </p>
-                        <p className="flex items-center gap-2">
-                          <Mail size={13} className="text-gold" />
-                          {dept.email}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-6 border-t border-fg/10 pt-4">
-                      <p className="font-sans text-[9px] uppercase tracking-[0.2em] text-fg/40">
-                        {dept.hours}
-                      </p>
-                    </div>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
+          <Reveal delay={100}>
+            <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-fg/55">
+              Click a department to see its visiting details and book an
+              appointment with the office.
+            </p>
+          </Reveal>
+
+          <DepartmentCards departments={DEPARTMENTS} />
         </div>
       </section>
 
@@ -252,7 +232,7 @@ export default async function ContactPage({
       <section className="bg-surface py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <Reveal>
-            <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-fg/10 bg-card p-8 text-white md:flex-row md:items-center md:p-10">
+            <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-fg/10 bg-card p-8 text-white md:flex-row md:items-center md:p-10">
               <div className="flex items-start gap-4">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/10 text-gold">
                   <ShieldAlert size={20} />

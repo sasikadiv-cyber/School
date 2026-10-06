@@ -19,10 +19,10 @@ export function Crest({
 }) {
   const dims =
     size === "lg"
-      ? "h-16 w-16 text-[15px]"
+      ? "h-20 w-20 text-[19px] ring-2 [&>span:first-child]:inset-[5px] md:h-24 md:w-24 md:text-[22px]"
       : size === "sm"
-        ? "h-10 w-10 text-[9px]"
-        : "h-12 w-12 text-[11px]";
+        ? "h-11 w-11 text-[10px]"
+        : "h-14 w-14 text-[13px]";
 
   const palette =
     tone === "light"

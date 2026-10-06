@@ -21,12 +21,14 @@ const links: NavLink[] = [
       { label: "Principal's Message", href: "/principals-message" },
       { label: "Colours & Song", href: "/vision-mission#colours" },
       { label: "Staff", href: "/staff" },
+      { label: "Admissions", href: "/admissions" },
     ],
   },
   {
     label: "Academics",
     href: "/#academics",
     children: [
+      { label: "Ordinary Level", href: "/ordinary-level" },
       { label: "Advanced Level", href: "/advanced-level" },
       { label: "Exam Results", href: "/exam-results" },
       { label: "Achievements", href: "/achievements" },
@@ -96,6 +98,22 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [brand, setBrand] = useState({
+    brandName: "St. Thomas' College",
+    brandSubline: "Matale · Est. 1873",
+  });
+
+  useEffect(() => {
+    fetch("/api/site-settings")
+      .then((res) => res.json())
+      .then((data) =>
+        setBrand({
+          brandName: data.brandName || "St. Thomas' College",
+          brandSubline: data.brandSubline || "Matale · Est. 1873",
+        }),
+      )
+      .catch(() => undefined);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -127,15 +145,15 @@ export function Navbar() {
               S
             </span>
             <span className="leading-tight">
-              <span className="block font-display text-[1.35rem] font-semibold tracking-[-0.01em]">
-                St. Thomas'
+              <span className="block font-display text-[1.15rem] font-semibold tracking-[-0.01em]">
+                St. Thomas&apos; College
               </span>
               <span
                 className={`block font-sans text-[9px] uppercase tracking-[0.35em] ${
                   scrolled ? "text-fg/45" : "text-white/60"
                 }`}
               >
-                College Matale · Est. 1873
+                {brand.brandSubline}
               </span>
             </span>
           </Link>
@@ -163,7 +181,7 @@ export function Navbar() {
 
                 {link.children && (
                   <div className="invisible absolute left-1/2 top-full -translate-x-1/2 -translate-y-1 opacity-0 transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                    <div className="min-w-[230px] rounded-2xl border border-fg/10 bg-surface p-2 shadow-lift">
+                    <div className="min-w-[230px] rounded-xl border border-fg/10 bg-surface p-2 shadow-lift">
                       {link.children.map((child) => (
                         <Link
                           key={child.label}
@@ -184,7 +202,7 @@ export function Navbar() {
           <div className="flex items-center gap-2.5">
             <ThemeToggle scrolled={scrolled} />
             <Link
-              href="/contact?type=Admissions"
+              href="/admissions"
               className="group hidden items-center gap-2 rounded-full bg-gold px-6 py-3 text-[13px] font-medium text-ink transition-colors duration-300 hover:bg-fg hover:text-surface lg:inline-flex"
             >
               Apply Now
@@ -220,7 +238,14 @@ export function Navbar() {
               <span className="grid h-10 w-10 place-items-center rounded-full bg-gold font-display text-xl font-semibold text-ink">
                 S
               </span>
-              <span className="font-display text-2xl font-semibold">St. Thomas'</span>
+              <span className="leading-tight">
+                <span className="block font-display text-lg font-semibold tracking-[-0.01em]">
+                  {brand.brandName}
+                </span>
+                <span className="block font-sans text-[8px] uppercase tracking-[0.32em] text-white/55">
+                  Matale · Est. 1873
+                </span>
+              </span>
             </Link>
             <button
               onClick={() => setOpen(false)}
@@ -243,11 +268,11 @@ export function Navbar() {
                   >
                     {link.children ? (
                       <div>
-                        <div className="flex items-center rounded-2xl px-2 transition-colors hover:bg-white/5">
+                        <div className="flex items-center rounded-xl px-2 transition-colors hover:bg-white/5">
                           <Link
                             href={link.href}
                             onClick={() => setOpen(false)}
-                            className="block flex-1 py-3 font-display text-3xl font-semibold tracking-[-0.02em] md:text-4xl"
+                            className="block flex-1 py-2.5 font-display text-[19px] font-semibold tracking-[-0.01em] md:text-[21px]"
                           >
                             {link.label}
                           </Link>
@@ -289,7 +314,7 @@ export function Navbar() {
                                   <Link
                                     href={child.href}
                                     onClick={() => setOpen(false)}
-                                    className="block py-2 text-[15px] font-medium text-white/55 transition-colors hover:text-gold"
+                                    className="block py-2 font-display text-[15px] font-medium tracking-[-0.01em] text-white/60 transition-colors hover:text-gold"
                                   >
                                     {child.label}
                                   </Link>
@@ -303,7 +328,7 @@ export function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setOpen(false)}
-                        className="block rounded-2xl px-2 py-3 font-display text-3xl font-semibold tracking-[-0.02em] transition-colors hover:bg-white/5 md:text-4xl"
+                        className="block rounded-xl px-2 py-2.5 font-display text-[19px] font-semibold tracking-[-0.01em] transition-colors hover:bg-white/5 md:text-[21px]"
                       >
                         {link.label}
                       </Link>
@@ -317,7 +342,7 @@ export function Navbar() {
           {/* Mobile Apply Now */}
           <div className="relative shrink-0 px-6 pb-10 md:px-14">
             <Link
-              href="/contact?type=Admissions"
+              href="/admissions"
               onClick={() => setOpen(false)}
               className="group flex w-full items-center justify-center gap-2 rounded-full bg-gold py-4 text-sm font-medium text-ink transition-colors duration-300 hover:bg-white"
             >

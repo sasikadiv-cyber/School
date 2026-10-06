@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { Suspense } from "react";
 import { Inter, Inter_Tight } from "next/font/google";
+import {
+  PublishedVisualPatches,
+  UniversalVisualEditor,
+} from "@/components/cms/universal-visual-editor";
 import "./globals.css";
 
 const display = Inter_Tight({
@@ -39,6 +44,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         className={`${display.variable} ${sans.variable} bg-surface font-sans text-fg antialiased`}
       >
         {children}
+        <Suspense fallback={null}>
+          <PublishedVisualPatches />
+          <UniversalVisualEditor />
+        </Suspense>
       </body>
     </html>
   );
