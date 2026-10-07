@@ -4,6 +4,15 @@ import { asc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { adminAuditLogs, staff } from "@/db/schema";
 import { requireAdminApi } from "@/lib/admin-auth";
+import {
+  clearEntityMediaUsage,
+  syncEntityMediaUsage,
+} from "@/lib/media-usage";
+
+function safeImage(value: unknown) {
+  const text = typeof value === "string" ? value.trim() : "";
+  return text && (text.startsWith("/") || text.startsWith("https://")) ? text : null;
+}
 
 export async function GET() {
   const admin = await requireAdminApi();
@@ -34,6 +43,7 @@ export async function POST(req: Request) {
         role: String(body.role ?? "Teacher").trim(),
         department: String(body.department ?? "Science & ICT").trim(),
         qualification: String(body.qualification ?? "").trim() || "B.Sc · PGDE",
+        image: safeImage(body.image),
         featured: Boolean(body.featured),
         sortOrder: Number(body.sortOrder) || 100,
       })
@@ -47,6 +57,12 @@ export async function POST(req: Request) {
       action: "create_staff",
       entity: "staff",
       entityId: String(created.id),
+    });
+    await syncEntityMediaUsage({
+      entityType: "staff",
+      entityId: created.id,
+      fieldName: "portrait",
+      urls: [created.image],
     });
 
     return NextResponse.json({ staff: created });
@@ -90,6 +106,7 @@ export async function PATCH(req: Request) {
     if (typeof body.role === "string" && body.role.trim()) patch.role = body.role.trim();
     if (typeof body.department === "string" && body.department.trim()) patch.department = body.department.trim();
     if (typeof body.qualification === "string") patch.qualification = body.qualification.trim();
+    if (body.image !== undefined) patch.image = safeImage(body.image);
     if (body.featured !== undefined) patch.featured = Boolean(body.featured);
     if (body.sortOrder !== undefined) patch.sortOrder = Number(body.sortOrder);
 
@@ -104,6 +121,12 @@ export async function PATCH(req: Request) {
       action: "update_staff",
       entity: "staff",
       entityId: String(id),
+    });
+    await syncEntityMediaUsage({
+      entityType: "staff",
+      entityId: id,
+      fieldName: "portrait",
+      urls: [updated.image],
     });
 
     return NextResponse.json({ staff: updated });
@@ -127,6 +150,7 @@ export async function DELETE(req: Request) {
     }
 
     await db.delete(staff).where(eq(staff.id, numeric));
+    await clearEntityMediaUsage("staff", numeric);
 
     revalidatePath("/staff");
     revalidatePath("/");

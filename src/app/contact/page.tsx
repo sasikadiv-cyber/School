@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
 import { ContactForm } from "@/components/contact/contact-form";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 import {
   DepartmentCards,
   type Department,
@@ -260,6 +261,7 @@ export default async function ContactPage({
         </div>
       </section>
 
+      <VisualBlockSections path="/contact" />
       <Footer />
     </main>
   );

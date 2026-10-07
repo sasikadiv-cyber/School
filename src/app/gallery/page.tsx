@@ -10,6 +10,7 @@ import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
 import { GalleryClient } from "@/components/gallery/gallery-client";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const dynamic = "force-dynamic";
 
@@ -158,6 +159,7 @@ export default async function GalleryPage() {
         </div>
       </section>
 
+      <VisualBlockSections path="/gallery" />
       <Footer />
     </main>
   );

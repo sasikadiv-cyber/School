@@ -34,7 +34,8 @@ export function Crest({
   return (
     <span
       aria-label={label ?? initials}
-      className={`relative grid shrink-0 place-items-center rounded-full ring-1 ${palette} ${dims} ${className}`}
+      data-visual-bg=""
+      className={`relative grid shrink-0 place-items-center rounded-full bg-cover bg-center ring-1 ${palette} ${dims} ${className}`}
     >
       <span className="absolute inset-[3px] rounded-full border border-current opacity-25" />
       <span className="font-display font-semibold leading-none tracking-[-0.02em]">

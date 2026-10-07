@@ -4,6 +4,10 @@ import { asc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { adminAuditLogs, galleryItems } from "@/db/schema";
 import { requireAdminApi } from "@/lib/admin-auth";
+import {
+  clearEntityMediaUsage,
+  syncEntityMediaUsage,
+} from "@/lib/media-usage";
 
 const CATEGORIES = ["Campus", "Academics", "Sports", "Arts & Culture"];
 const ASPECTS = ["landscape", "portrait", "square"];
@@ -60,6 +64,12 @@ export async function POST(req: Request) {
       action: "create_gallery_item",
       entity: "gallery_item",
       entityId: String(created.id),
+    });
+    await syncEntityMediaUsage({
+      entityType: "gallery",
+      entityId: created.id,
+      fieldName: "image",
+      urls: [created.image],
     });
     return NextResponse.json({ item: created });
   } catch (error) {
@@ -139,6 +149,12 @@ export async function PATCH(req: Request) {
       entity: "gallery_item",
       entityId: String(id),
     });
+    await syncEntityMediaUsage({
+      entityType: "gallery",
+      entityId: id,
+      fieldName: "image",
+      urls: [updated.image],
+    });
     return NextResponse.json({ item: updated });
   } catch (error) {
     return NextResponse.json(
@@ -158,6 +174,7 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Invalid frame." }, { status: 400 });
     }
     await db.delete(galleryItems).where(eq(galleryItems.id, numeric));
+    await clearEntityMediaUsage("gallery", numeric);
     revalidatePath("/gallery");
     await db.insert(adminAuditLogs).values({
       userId: admin.id,

@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { CineCard } from "@/components/cadeting/cine-overlay";
 import { CINE_FLAG } from "@/components/cadeting/explore-link";
 
-/** Hold for direct visits — long enough to read the unit card (ms). */
-const HOLD = 2400;
+/** Default hold for direct visits — overridable from Admin Settings. */
+const DEFAULT_HOLD = 2400;
 /** Hold when arriving from the Explore transition (ms). */
 const HANDOFF_HOLD = 450;
 /** Fade-out duration (must match .cine-overlay-out). */
@@ -30,6 +30,8 @@ export function CinematicIntro({
   name,
   tagline,
   path,
+  enabled = true,
+  holdMs = DEFAULT_HOLD,
   children,
 }: {
   crest: string;
@@ -37,12 +39,20 @@ export function CinematicIntro({
   tagline: string;
   /** Expectation for the Explore handoff, e.g. `/cadeting/army-cadet` */
   path: string;
+  /** Controlled globally from Admin Settings, never through visual patches. */
+  enabled?: boolean;
+  holdMs?: number;
   children: ReactNode;
 }) {
   const [closing, setClosing] = useState(false);
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
+    if (!enabled) {
+      setGone(true);
+      document.body.style.overflow = "";
+      return;
+    }
     let fromExplore = false;
     try {
       fromExplore = window.sessionStorage.getItem(CINE_FLAG) === path;
@@ -55,7 +65,9 @@ export function CinematicIntro({
     window.scrollTo(0, 0);
     document.body.style.overflow = "hidden";
 
-    const hold = fromExplore ? HANDOFF_HOLD : HOLD;
+    const hold = fromExplore
+      ? HANDOFF_HOLD
+      : Math.max(0, Math.min(8000, Number(holdMs) || DEFAULT_HOLD));
     const t1 = window.setTimeout(() => {
       setClosing(true);
       document.body.style.overflow = "";
@@ -67,7 +79,7 @@ export function CinematicIntro({
       window.clearTimeout(t2);
       document.body.style.overflow = "";
     };
-  }, [path]);
+  }, [path, enabled, holdMs]);
 
   return (
     <>

@@ -195,7 +195,7 @@ export function EventsCalendar({ events }: { events: CalendarEvent[] }) {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-[1.45fr_1fr]">
+      <div data-structured-content className="grid lg:grid-cols-[1.45fr_1fr]">
         {/* Month grid — slides in the direction of travel */}
         <div className="overflow-hidden border-b border-fg/10 p-4 md:p-6 lg:border-b-0 lg:border-r">
           <div

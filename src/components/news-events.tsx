@@ -48,7 +48,7 @@ export async function NewsEvents({
         </div>
 
         {/* Cards */}
-        <div className="mt-14 grid gap-7 md:grid-cols-3">
+        <div data-structured-content className="mt-14 grid gap-7 md:grid-cols-3">
           {latest.map((post, i) => (
             <Reveal key={post.id} delay={i * 140} className="h-full">
               <PostCard post={post} />

@@ -13,6 +13,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const metadata = {
   title: "Vision & Mission — St. Thomas' College",
@@ -274,7 +275,9 @@ export default function VisionMissionPage() {
                   ].map((c, i) => (
                     <Reveal key={c.name} delay={120 + i * 110} className="h-full">
                       <div
-                        className={`group relative h-52 overflow-hidden rounded-xl md:h-64 ${c.panel}`}
+                        data-visual-bg=""
+                        title={`${c.name} colour panel`}
+                        className={`group relative h-52 overflow-hidden rounded-xl bg-cover bg-center md:h-64 ${c.panel}`}
                       >
                         {/* sheen sweep on hover */}
                         <span
@@ -510,6 +513,7 @@ export default function VisionMissionPage() {
         </div>
       </section>
 
+      <VisualBlockSections path="/vision-mission" />
       <Footer />
     </main>
   );

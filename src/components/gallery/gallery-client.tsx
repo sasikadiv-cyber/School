@@ -136,7 +136,7 @@ export function GalleryClient({ items }: { items: GalleryItem[] }) {
       {/* Asymmetric grid — re-animates on every filter change */}
       <div
         key={activeCategory}
-        className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[264px] lg:grid-flow-dense md:gap-6"
+        data-structured-content className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[264px] lg:grid-flow-dense md:gap-6"
       >
         {filtered.map((item, i) => (
           <article

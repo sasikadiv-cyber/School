@@ -224,6 +224,22 @@ export default async function AdminDashboard() {
           </Link>
 
           <Link
+            href="/admin/unit-gallery"
+            className="group flex items-center justify-between rounded-2xl border border-white/10 bg-[#0d0d0b] p-5 transition-colors hover:border-[#ffd444]/50"
+          >
+            <div className="flex items-center gap-4">
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#ffd444] text-[#0b0b0a]">
+                <Images size={18} />
+              </span>
+              <div>
+                <h3 className="font-display text-base font-semibold">Unit Galleries</h3>
+                <p className="text-[12px] text-white/45">Photo archive per cadet unit page</p>
+              </div>
+            </div>
+            <ArrowRight size={15} className="text-white/30 transition-transform group-hover:translate-x-1 group-hover:text-[#ffd444]" />
+          </Link>
+
+          <Link
             href="/admin/staff"
             className="group flex items-center justify-between rounded-2xl border border-white/10 bg-[#0d0d0b] p-5 transition-colors hover:border-[#ffd444]/50"
           >

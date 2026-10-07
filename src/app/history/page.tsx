@@ -11,6 +11,7 @@ import { LiveSiteEditor } from "@/components/admin/live-site-editor";
 import { getAdminSession } from "@/lib/admin-auth";
 import { getCmsPage } from "@/lib/cms";
 import { getCmsPageDefinition } from "@/lib/cms-defaults";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const metadata = {
   title: "Our History — St. Thomas' College, Matale",
@@ -386,6 +387,7 @@ export default async function HistoryPage({
       </div>
       </div>
 
+      <VisualBlockSections path="/history" />
       <Footer />
       {editor && page && definition && (
         <LiveSiteEditor initialPage={page} definition={definition} />

@@ -8,6 +8,11 @@ import {
   visualPatches,
 } from "@/db/schema";
 import { requireAdminApi } from "@/lib/admin-auth";
+import { syncPageMediaUsage } from "@/lib/media-usage";
+import {
+  discardVisualBlockDrafts,
+  publishVisualBlocks,
+} from "@/lib/visual-blocks-server";
 
 function validPath(path: unknown): path is string {
   return (
@@ -31,6 +36,8 @@ function cleanData(value: unknown) {
     alt?: string;
     hidden?: boolean;
     textMode?: "direct" | "full";
+    backgroundImage?: string;
+    backgroundColor?: string;
   } = {};
   if (typeof input.text === "string") data.text = input.text.slice(0, 20000);
   if (typeof input.alt === "string") data.alt = input.alt.slice(0, 1000);
@@ -38,7 +45,7 @@ function cleanData(value: unknown) {
   if (input.textMode === "direct" || input.textMode === "full") {
     data.textMode = input.textMode;
   }
-  for (const key of ["href", "src"] as const) {
+  for (const key of ["href", "src", "backgroundImage"] as const) {
     if (typeof input[key] === "string" && input[key]) {
       const url = input[key].trim();
       if (!url.startsWith("/") && !url.startsWith("https://") && !url.startsWith("#")) {
@@ -46,6 +53,17 @@ function cleanData(value: unknown) {
       }
       data[key] = url.slice(0, 2000);
     }
+  }
+  if (typeof input.backgroundColor === "string") {
+    const color = input.backgroundColor.trim();
+    if (
+      color &&
+      !/^#[0-9a-f]{3,8}$/i.test(color) &&
+      !/^rgba?\([0-9., %]+\)$/i.test(color)
+    ) {
+      throw new Error("Background colour must be a HEX, rgb or rgba value.");
+    }
+    data.backgroundColor = color.slice(0, 80);
   }
   return data;
 }
@@ -130,6 +148,7 @@ export async function PATCH(req: Request) {
       entityId: String(patch.id),
       details: { pagePath: body.pagePath, selector },
     });
+    await syncPageMediaUsage(body.pagePath).catch(() => 0);
     revalidatePath(body.pagePath);
     return NextResponse.json({ patch });
   } catch (error) {
@@ -183,6 +202,7 @@ export async function POST(req: Request) {
             .where(eq(visualPatches.id, existing.id));
         }
       }
+      await syncPageMediaUsage(pagePath).catch(() => 0);
       revalidatePath(pagePath);
       return NextResponse.json({ success: true });
     }
@@ -201,6 +221,8 @@ export async function POST(req: Request) {
             .where(eq(visualPatches.id, row.id)),
         ),
       );
+      await discardVisualBlockDrafts(pagePath, admin.id).catch(() => 0);
+      await syncPageMediaUsage(pagePath).catch(() => 0);
       revalidatePath(pagePath);
       return NextResponse.json({ success: true });
     }
@@ -233,6 +255,8 @@ export async function POST(req: Request) {
       entity: "visual_page",
       entityId: pagePath,
     });
+    await publishVisualBlocks(pagePath, admin.id).catch(() => 0);
+    await syncPageMediaUsage(pagePath).catch(() => 0);
     revalidatePath(pagePath);
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -248,6 +272,9 @@ export async function DELETE(req: Request) {
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id, pagePath } = await req.json();
   await db.delete(visualPatches).where(eq(visualPatches.id, Number(id)));
-  if (validPath(pagePath)) revalidatePath(pagePath);
+  if (validPath(pagePath)) {
+    await syncPageMediaUsage(pagePath).catch(() => 0);
+    revalidatePath(pagePath);
+  }
   return NextResponse.json({ success: true });
 }

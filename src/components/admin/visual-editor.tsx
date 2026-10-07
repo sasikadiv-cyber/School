@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import type { CmsPageView, CmsSectionView } from "@/lib/cms";
 import type { CmsPageDefinition, CmsSectionDefinition } from "@/lib/cms-defaults";
+import { MediaLibraryButton } from "@/components/admin/media-picker";
 
 type Device = "desktop" | "tablet" | "mobile";
 type Sheet = "sections" | "inspector" | "revisions" | null;
@@ -444,7 +445,15 @@ function Inspector({ section, definition, draft, hidden, setDraft, setHidden, di
       <div className="space-y-5">
         {definition.fields.map((f) => (
           <label key={f.key} className="block min-w-0">
-            <span className="mb-2 block text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40">{f.label}</span>
+            <span className="mb-2 flex items-center justify-between gap-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40">
+              {f.label}
+              {f.type === "image" && (
+                <MediaLibraryButton
+                  preferFolder="site-assets"
+                  onSelect={(picked) => setDraft((d) => ({ ...d, [f.key]: picked.url }))}
+                />
+              )}
+            </span>
             {f.type === "textarea" ? (
               <textarea rows={5} value={draft[f.key] ?? ""} onChange={(e) => setDraft((d) => ({ ...d, [f.key]: e.target.value }))} className={`${field} resize-y py-3 leading-relaxed`} />
             ) : (

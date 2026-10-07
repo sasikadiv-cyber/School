@@ -14,6 +14,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const metadata = {
   title: "Advanced Level — St. Thomas' College",
@@ -288,6 +289,7 @@ export default function AdvancedLevelPage() {
         </div>
       </section>
 
+      <VisualBlockSections path="/advanced-level" />
       <Footer />
     </main>
   );

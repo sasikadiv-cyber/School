@@ -14,6 +14,7 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { MediaLibraryButton } from "@/components/admin/media-picker";
 
 type StaffMember = {
   id: number;
@@ -21,6 +22,7 @@ type StaffMember = {
   role: string;
   department: string;
   qualification: string;
+  image: string | null;
   featured: boolean;
   sortOrder: number;
 };
@@ -289,6 +291,32 @@ export function StaffManager() {
             </div>
 
             <div className="flex-1 space-y-4 overflow-y-auto p-5 sm:p-6">
+              <div>
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <span className="text-[9px] uppercase tracking-[0.18em] text-white/40">
+                    Portrait
+                  </span>
+                  <MediaLibraryButton
+                    preferFolder="staff"
+                    onSelect={(picked) => setEditing({ ...editing, image: picked.url })}
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  {editing.image ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={editing.image} alt="Portrait preview" className="h-20 w-16 rounded-xl object-cover" />
+                  ) : (
+                    <span className="grid h-20 w-16 place-items-center rounded-xl bg-white/[0.06] text-[9px] text-white/30">No photo</span>
+                  )}
+                  <input
+                    value={editing.image ?? ""}
+                    onChange={(e) => setEditing({ ...editing, image: e.target.value || null })}
+                    className={`${input} h-11 min-w-0 flex-1 text-[11px]`}
+                    placeholder="URL or choose from Library"
+                  />
+                </div>
+              </div>
+
               <div>
                 <span className="mb-1.5 block text-[9px] uppercase tracking-[0.18em] text-white/40">
                   Full Name

@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { APP_VERSION_LABEL } from "@/lib/app-version";
 import {
   CalendarDays,
   ChevronDown,
@@ -125,8 +126,11 @@ export function AdminShell({
           <Link href="/admin/events" className={linkCls(pathname.startsWith("/admin/events"))}>
             <CalendarDays size={16} /> Events &amp; Schedule
           </Link>
-          <Link href="/admin/gallery" className={linkCls(pathname.startsWith("/admin/gallery"))}>
+          <Link href="/admin/gallery" className={linkCls(pathname.startsWith("/admin/gallery") && !pathname.startsWith("/admin/unit-gallery"))}>
             <Images size={16} /> Campus Gallery
+          </Link>
+          <Link href="/admin/unit-gallery" className={linkCls(pathname.startsWith("/admin/unit-gallery"))}>
+            <Images size={16} /> Unit Galleries
           </Link>
           <Link href="/admin/staff" className={linkCls(pathname.startsWith("/admin/staff"))}>
             <GraduationCap size={16} /> Faculty &amp; Staff
@@ -142,7 +146,7 @@ export function AdminShell({
         <div className="mt-auto border-t border-white/10 pt-5">
           <p className="truncate text-[13px] font-medium">{user.name}</p>
           <p className="mt-0.5 text-[9px] uppercase tracking-[0.2em] text-white/30">
-            {user.role.replaceAll("_", " ")}
+            {user.role.replaceAll("_", " ")} · {APP_VERSION_LABEL}
           </p>
           <div className="mt-4 flex gap-2">
             <Link
@@ -196,7 +200,8 @@ export function AdminShell({
           { label: "Pages", href: "/admin/pages", icon: Layers, active: inPages },
           { label: "News", href: "/admin/news", icon: Newspaper, active: pathname.startsWith("/admin/news") },
           { label: "Events", href: "/admin/events", icon: CalendarDays, active: pathname.startsWith("/admin/events") },
-          { label: "Gallery", href: "/admin/gallery", icon: Images, active: pathname.startsWith("/admin/gallery") },
+          { label: "Gallery", href: "/admin/gallery", icon: Images, active: pathname.startsWith("/admin/gallery") && !pathname.startsWith("/admin/unit-gallery") },
+          { label: "Units", href: "/admin/unit-gallery", icon: Images, active: pathname.startsWith("/admin/unit-gallery") },
           { label: "Staff", href: "/admin/staff", icon: GraduationCap, active: pathname.startsWith("/admin/staff") },
           { label: "Media", href: "/admin/media", icon: FolderKanban, active: pathname.startsWith("/admin/media") },
           { label: "Settings", href: "/admin/settings", icon: Settings, active: pathname.startsWith("/admin/settings") },

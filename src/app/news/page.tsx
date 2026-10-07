@@ -13,6 +13,7 @@ import { PostCard } from "@/components/news/post-card";
 import { CategoryFilter } from "@/components/news/category-filter";
 import { formatDate } from "@/lib/format";
 import { EventsCalendar } from "@/components/news/events-calendar";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const dynamic = "force-dynamic";
 
@@ -279,6 +280,7 @@ export default async function NewsPage({
         </div>
       </section>
 
+      <VisualBlockSections path="/news" />
       <Footer />
     </main>
   );

@@ -17,6 +17,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import { MediaLibraryButton } from "@/components/admin/media-picker";
 
 type Post = {
   id: number;
@@ -284,6 +285,10 @@ export function NewsManager({ categories: initialCategories }: { categories: str
                     onChange={(e) => setEditing({ ...editing, image: e.target.value })}
                     className="min-w-0 flex-1 bg-transparent text-[10px] text-white/80 outline-none placeholder:text-white/30"
                     placeholder="/images/… or https://…"
+                  />
+                  <MediaLibraryButton
+                    preferFolder="news"
+                    onSelect={(picked) => setEditing({ ...editing, image: picked.url })}
                   />
                 </label>
                 <button

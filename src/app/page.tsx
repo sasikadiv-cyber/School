@@ -10,6 +10,7 @@ import { LiveSiteEditor } from "@/components/admin/live-site-editor";
 import { getAdminSession } from "@/lib/admin-auth";
 import { getCmsPage } from "@/lib/cms";
 import { getCmsPageDefinition } from "@/lib/cms-defaults";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const dynamic = "force-dynamic";
 
@@ -56,6 +57,7 @@ export default async function Home({
           </EditableSection>
         ))}
       </div>
+      <VisualBlockSections path="/" />
       <Footer />
       {editor && page && definition && (
         <LiveSiteEditor initialPage={page} definition={definition} />

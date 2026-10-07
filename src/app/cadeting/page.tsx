@@ -13,6 +13,7 @@ import { SCENE } from "@/lib/media";
 import { UNITS } from "@/lib/units";
 import { Crest } from "@/components/crest";
 import { CadetExploreLink } from "@/components/cadeting/explore-link";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const dynamic = "force-dynamic";
 
@@ -342,6 +343,7 @@ export default async function CadetingPage() {
         </div>
       </section>
 
+      <VisualBlockSections path="/cadeting" />
       <Footer />
     </main>
   );

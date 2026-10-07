@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const metadata = {
   title: "Principal's Message — St. Thomas' College, Matale",
@@ -209,6 +210,7 @@ export default function PrincipalsMessagePage() {
         </div>
       </section>
 
+      <VisualBlockSections path="/principals-message" />
       <Footer />
     </main>
   );

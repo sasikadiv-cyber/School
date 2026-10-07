@@ -14,6 +14,7 @@ import {
   Image as ImageIcon,
   Images,
   Info,
+  Link2,
   Loader2,
   MoreHorizontal,
   Plus,
@@ -55,6 +56,12 @@ type Asset = {
   deletedAt: string | null;
   variants: Variant[];
   usageCount: number;
+  usage?: Array<{
+    entityType: string;
+    entityId: string | null;
+    fieldName: string | null;
+    pagePath: string | null;
+  }>;
 };
 
 type LibraryView = "all" | "uploaded" | "legacy" | "trash";
@@ -719,6 +726,29 @@ function AssetDrawer({
             </div>
           )}
 
+          {asset.usage && asset.usage.length > 0 && (
+            <div>
+              <p className="mb-2 flex items-center gap-1.5 text-[9px] uppercase tracking-[0.18em] text-white/35">
+                <Link2 size={10} className="text-emerald-400" /> Usage locations — this
+                asset cannot be trashed while listed here
+              </p>
+              <div className="overflow-hidden rounded-xl border border-emerald-400/15">
+                {asset.usage.map((row, index) => (
+                  <div
+                    key={`${row.entityType}-${row.entityId}-${index}`}
+                    className="flex items-center justify-between gap-3 border-b border-white/8 px-3 py-2.5 text-[10px] last:border-b-0"
+                  >
+                    <span className="capitalize text-white/60">{row.entityType}</span>
+                    <span className="truncate text-right font-mono text-[9px] text-white/35">
+                      {row.pagePath || `${row.entityType} #${row.entityId}`}
+                      {row.fieldName ? ` · ${row.fieldName}` : ""}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={copy}
@@ -750,7 +780,13 @@ function AssetDrawer({
                 <>
                   <button
                     onClick={trash}
-                    className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-red-400/25 text-red-400 hover:bg-red-500/10"
+                    disabled={asset.usageCount > 0}
+                    title={
+                      asset.usageCount > 0
+                        ? `Used in ${asset.usageCount} place${asset.usageCount === 1 ? "" : "s"} — remove those references first`
+                        : "Move to trash"
+                    }
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-red-400/25 text-red-400 hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
                     aria-label="Move to trash"
                   >
                     <Trash2 size={14} />

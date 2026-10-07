@@ -13,6 +13,7 @@ import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
 import { AdmissionForm } from "@/components/admissions/admission-form";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const metadata = {
   title: "Admissions — St. Thomas' College, Matale",
@@ -227,6 +228,7 @@ export default async function AdmissionsPage({
         </div>
       </section>
 
+      <VisualBlockSections path="/admissions" />
       <Footer />
     </main>
   );

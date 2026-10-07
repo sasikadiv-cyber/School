@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Loader2, Save, Send } from "lucide-react";
+import { MediaLibraryButton } from "@/components/admin/media-picker";
 
 const fields = [
   ["brandName", "Brand name", "St. Thomas' College"],
@@ -49,6 +50,61 @@ export function SettingsForm({ initial }: { initial: Record<string, string> }) {
               )}
             </label>
           ))}
+        </div>
+
+        <div className="mt-8 border-t border-white/10 pt-7">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40">School logo</p>
+              <p className="mt-1 text-[11px] text-white/30">Used in the navbar, footer and Admin Studio identity.</p>
+            </div>
+            <MediaLibraryButton
+              preferFolder="site-assets"
+              onSelect={(picked) => setData((d) => ({ ...d, schoolLogo: picked.url }))}
+            />
+          </div>
+          <div className="mt-3 flex items-center gap-3">
+            {data.schoolLogo ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={data.schoolLogo} alt="School logo preview" className="h-16 w-16 rounded-full border border-white/15 object-contain p-1" />
+            ) : (
+              <span className="grid h-16 w-16 place-items-center rounded-full bg-[#ffd444] font-display text-xl font-semibold text-[#0b0b0a]">S</span>
+            )}
+            <input
+              value={data.schoolLogo ?? ""}
+              onChange={(e) => setData((d) => ({ ...d, schoolLogo: e.target.value }))}
+              placeholder="Paste logo URL or choose from Library"
+              className="h-11 min-w-0 flex-1 rounded-xl border border-white/12 bg-white/[0.05] px-4 text-[12px] text-white outline-none focus:border-[#ffd444]"
+            />
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-white/10 pt-7">
+          <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40">Cadeting preloader</p>
+          <p className="mt-1 text-[11px] text-white/30">Managed here instead of the visual editor, so its animation cannot be corrupted.</p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <label className="flex h-11 items-center justify-between rounded-xl border border-white/12 bg-white/[0.05] px-4 text-[12px] text-white/70">
+              Enable cinematic intro
+              <input
+                type="checkbox"
+                checked={data.cadetIntroEnabled !== "false"}
+                onChange={(e) => setData((d) => ({ ...d, cadetIntroEnabled: e.target.checked ? "true" : "false" }))}
+                className="h-4 w-4 accent-[#ffd444]"
+              />
+            </label>
+            <label>
+              <span className="mb-2 block text-[9px] uppercase tracking-[0.18em] text-white/35">Direct-visit hold (ms)</span>
+              <input
+                type="number"
+                min="0"
+                max="8000"
+                step="100"
+                value={data.cadetIntroHold ?? "2400"}
+                onChange={(e) => setData((d) => ({ ...d, cadetIntroHold: e.target.value }))}
+                className="h-11 w-full rounded-xl border border-white/12 bg-white/[0.05] px-4 text-[12px] text-white outline-none focus:border-[#ffd444]"
+              />
+            </label>
+          </div>
         </div>
         {message && <div className="mt-5 flex items-center gap-2 rounded-xl bg-emerald-400/10 px-4 py-3 text-[12px] text-emerald-300"><Check size={14} />{message}</div>}
         <div className="mt-7 flex flex-col gap-3 border-t border-white/10 pt-5 sm:flex-row sm:justify-end">

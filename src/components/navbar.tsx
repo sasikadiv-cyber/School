@@ -82,7 +82,8 @@ function ThemeToggle({ scrolled }: { scrolled: boolean }) {
   return (
     <button
       onClick={toggle}
-      aria-label="Toggle dark mode"
+      aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
+      title={dark ? "Light mode" : "Dark mode"}
       className={`grid h-10 w-10 place-items-center rounded-full border transition-colors ${
         scrolled
           ? "border-fg/15 text-fg hover:bg-fg hover:text-surface"
@@ -101,6 +102,7 @@ export function Navbar() {
   const [brand, setBrand] = useState({
     brandName: "St. Thomas' College",
     brandSubline: "Matale · Est. 1873",
+    schoolLogo: "",
   });
 
   useEffect(() => {
@@ -110,6 +112,7 @@ export function Navbar() {
         setBrand({
           brandName: data.brandName || "St. Thomas' College",
           brandSubline: data.brandSubline || "Matale · Est. 1873",
+          schoolLogo: data.schoolLogo || "",
         }),
       )
       .catch(() => undefined);
@@ -141,9 +144,18 @@ export function Navbar() {
         <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
           {/* Brand */}
           <Link href="/#home" className="group flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-gold font-display text-xl font-semibold text-ink transition-transform duration-700 group-hover:rotate-[360deg]">
-              S
-            </span>
+            {brand.schoolLogo ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={brand.schoolLogo}
+                alt={`${brand.brandName} logo`}
+                className="h-10 w-10 rounded-full border border-white/20 bg-white object-contain p-0.5 transition-transform duration-700 group-hover:rotate-[360deg]"
+              />
+            ) : (
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-gold font-display text-xl font-semibold text-ink transition-transform duration-700 group-hover:rotate-[360deg]">
+                S
+              </span>
+            )}
             <span className="leading-tight">
               <span className="block font-display text-[1.15rem] font-semibold tracking-[-0.01em]">
                 St. Thomas&apos; College
@@ -235,9 +247,18 @@ export function Navbar() {
               onClick={() => setOpen(false)}
               className="flex items-center gap-3"
             >
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-gold font-display text-xl font-semibold text-ink">
-                S
-              </span>
+              {brand.schoolLogo ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={brand.schoolLogo}
+                  alt={`${brand.brandName} logo`}
+                  className="h-10 w-10 rounded-full border border-white/20 bg-white object-contain p-0.5"
+                />
+              ) : (
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-gold font-display text-xl font-semibold text-ink">
+                  S
+                </span>
+              )}
               <span className="leading-tight">
                 <span className="block font-display text-lg font-semibold tracking-[-0.01em]">
                   {brand.brandName}

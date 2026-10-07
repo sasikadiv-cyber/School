@@ -32,6 +32,49 @@ A production-focused school website and mobile-first visual content management p
 - [x] Duplicate detection using SHA-256 content hashes.
 - [x] Media asset, variant and usage metadata tables.
 - [x] Categorized, mobile-first Media Library with upload progress, details, variants, filters, trash and restore.
+- [x] Phase 2.8 reusable Media Picker (browse, search, folder-first context, inline upload).
+- [x] News cover and Gallery frame fields integrated with the Media Picker; manual URLs kept for migration compatibility.
+- [x] Universal visual editor image inspector integrated with the Media Picker.
+- [x] `media_usage` synchronisation for posts, gallery frames and visual page patches (draft + published).
+- [x] Usage locations shown in the asset detail drawer; used assets are blocked from trashing (server 409 + disabled UI).
+
+### Editor & CMS Hardening Package — v2.8.14 (14-item admin request)
+
+- [x] Visual editor → persistent **Home button** back to Admin Dashboard (`/admin`).
+- [x] Hidden elements stay visible inside the editor (28% opacity, dashed amber outline, grayscale) with an explicit **Restore** action; the public site uses `display:none` so the next element reflows into place.
+- [x] **Page Images & Banners navigator** — lists every image/video/iframe/background (incl. hero images hidden behind overlays); one click selects exactly that element for editing. Structured News/Gallery/Staff cards are excluded by design.
+- [x] **Premade Component Library (Framer-style)** — Hero Banner, CTA, Stats Row, Image+Text, Heading, Text, Full Image and Quote blocks insertable on any page from the toolbar `+` drawer; draft/publish, hide, reorder, delete; all 16 public pages render blocks above the footer.
+- [x] Vision & Mission — colour panels and YouTube embed are now selectable (panels support background colour + image replacement; iframes support `src` editing).
+- [x] Staff portraits moved into the database (`staff.image`) with picker in the Staff Manager — principal/deputies/faculty avatars render from the DB with safe fallbacks; `media_usage` synced.
+- [x] Exam-results five-year trend — editing a percentage automatically resizes its progress bar (`data-trend-row`/`data-trend-bar`, works in editor preview, bootstrap and public patch application).
+- [x] **School logo** setting (Admin → Settings) renders in navbar, footer and mobile menu; circular Crest elements (clubs/societies/cadeting) support background-image replacement through the visual editor.
+- [x] A/L course cards — cut-off Z-score chips are now selectable text spans.
+- [x] Clubs & Cadeting crests editable via the universal editor (Crest components marked `data-visual-bg`).
+- [x] **Unit Galleries** — new `unit_gallery_items` table, admin manager (`/admin/unit-gallery`), per-unit picker + upload, public cadeting page prefers managed photos over built-in frames; usage tracked.
+- [x] Cadeting preloader removed from visual-editor scope (`data-visual-ui` shield) and moved to **Admin → Settings → Cadeting preloader** (enable/disable + direct-visit hold ms).
+- [x] Structured content protection — DB-driven components (news/events/gallery/staff/posts) are marked `data-structured-content` and ignored by the visual editor; they can only be edited in their own managers.
+- [x] Dark theme is now the site default; the toggle stores an explicit light preference.
+- [x] **App versioning** — `src/lib/app-version.ts` holds `APP_VERSION` (`major.phase.feature.patch`), displayed in the Admin Studio sidebar.
+
+### Phase 2.8 verification (performed 2026)
+
+Automated end-to-end checks against a running production build:
+
+1. Multipart local upload produced WebP variants and a `ready` asset.
+2. Creating a gallery frame with a library URL inserted a `media_usage` row.
+3. Trashing that asset returned HTTP 409 while the usage row existed.
+4. Changing the frame image cleared the usage row; trash then succeeded.
+5. Saving a visual page patch with a library `src` inserted a page-level usage row; publishing retained it and trash was again blocked.
+6. Re-uploading the same file was detected by SHA-256 hash and safely reused (`duplicate: true`).
+7. `/api/media/file` delivered processed WebP with immutable caching.
+8. `npx next typegen`, `tsc --noEmit` and `next build` all pass.
+
+### v2.8.14 verification (performed 2026)
+
+1. All 16 public routes + cadeting unit pages return 200 with the new schema (`staff.image`, `unit_gallery_items`, `visual_blocks` pushed via Drizzle).
+2. New endpoints `/api/admin/visual-blocks` and `/api/admin/unit-gallery` return 401 unauthenticated and are wrapped in the admin layout guard.
+3. `data-trend-row`, `data-visual-bg` and `data-structured-content` markers verified in served HTML.
+4. Draft/publish lifecycle for blocks shares the same publish endpoint as element patches (single "Publish now" action publishes both).
 
 ### Current development mode
 
@@ -80,10 +123,10 @@ ALLOW_RESTORE=YES BACKUP_FILE=.data/backups/<file>.dump node scripts/restore-dat
 
 ### Next approved implementation section
 
-1. Test the local upload and WebP pipeline from mobile and desktop admin.
-2. Test a real local MinIO instance and browser CORS/direct signed uploads.
-3. Add media picker integration to News, Gallery, Staff and the universal visual editor.
-4. Add `media_usage` synchronization so used assets cannot be trashed.
+1. ~~Test the local upload and WebP pipeline from mobile and desktop admin.~~ ✅ Verified (see Phase 2.8 verification above; retest from a physical phone before production).
+2. Test a real local MinIO instance and browser CORS/direct signed uploads (requires Docker on the developer machine).
+3. ~~Add media picker integration to News, Gallery, Staff and the universal visual editor.~~ ✅ Done — News, Gallery and the universal visual editor (Staff portraits use presets; no URL field exists there yet).
+4. ~~Add `media_usage` synchronization so used assets cannot be trashed.~~ ✅ Done — posts, gallery frames and visual page patches are synced on every mutation.
 5. Only then proceed to Supabase PostgreSQL migration.
 
 ---

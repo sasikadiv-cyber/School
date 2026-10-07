@@ -28,7 +28,7 @@ export async function GET(req: Request) {
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const trash = new URL(req.url).searchParams.get("view") === "trash";
-  const [assets, variants, usageCounts] = await Promise.all([
+  const [assets, variants, usageCounts, usageRows] = await Promise.all([
     db
       .select()
       .from(mediaAssets)
@@ -39,6 +39,15 @@ export async function GET(req: Request) {
       .select({ assetId: mediaUsage.assetId, count: sql<number>`count(*)::int` })
       .from(mediaUsage)
       .groupBy(mediaUsage.assetId),
+    db
+      .select({
+        assetId: mediaUsage.assetId,
+        entityType: mediaUsage.entityType,
+        entityId: mediaUsage.entityId,
+        fieldName: mediaUsage.fieldName,
+        pagePath: mediaUsage.pagePath,
+      })
+      .from(mediaUsage),
   ]);
 
   const uploaded = assets.map((asset) => {
@@ -54,6 +63,14 @@ export async function GET(req: Request) {
       variants: assetVariants,
       usageCount:
         usageCounts.find((usage) => usage.assetId === asset.id)?.count ?? 0,
+      usage: usageRows
+        .filter((row) => row.assetId === asset.id)
+        .map((row) => ({
+          entityType: row.entityType,
+          entityId: row.entityId,
+          fieldName: row.fieldName,
+          pagePath: row.pagePath,
+        })),
     };
   });
 

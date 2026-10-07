@@ -231,7 +231,9 @@ export default async function StreamPage({
                     }`}
                   >
                     <GraduationCap size={13} />
-                    Cut-off · {c.zScore}
+                    <span data-trend-row>
+                      Cut-off · <span>{c.zScore}</span>
+                    </span>
                   </div>
                 </div>
               </Reveal>

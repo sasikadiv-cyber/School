@@ -12,6 +12,7 @@ import { Eyebrow } from "@/components/eyebrow";
 import { PostCard } from "@/components/news/post-card";
 import { SCENE } from "@/lib/media";
 import { Crest } from "@/components/crest";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const dynamic = "force-dynamic";
 
@@ -154,7 +155,7 @@ export default async function AchievementsPage() {
             </Reveal>
           </div>
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div data-structured-content className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {trophyWall.map((t, i) => {
               return (
                 <Reveal key={t.title} delay={(i % 3) * 100} className="h-full">
@@ -247,6 +248,7 @@ export default async function AchievementsPage() {
         </section>
       )}
 
+      <VisualBlockSections path="/achievements" />
       <Footer />
     </main>
   );

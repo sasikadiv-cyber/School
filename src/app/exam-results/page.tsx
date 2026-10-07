@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
 import { PORTRAIT } from "@/lib/media";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const metadata = {
   title: "Exam Results — St. Thomas' College",
@@ -131,13 +132,18 @@ export default function ExamResultsPage() {
                 </p>
                 <div className="mt-7 space-y-4">
                   {trend.map((t) => (
-                    <div key={t.year} className="flex items-center gap-4">
+                    <div
+                      key={t.year}
+                      data-trend-row
+                      className="flex items-center gap-4"
+                    >
                       <span className="w-10 font-display text-lg font-semibold">
                         {t.year}
                       </span>
                       <div className="h-3.5 flex-1 overflow-hidden rounded-full bg-fg/10">
                         <div
-                          className={`h-full rounded-full ${t.year === "2026" ? "bg-gold" : "bg-fg/70"}`}
+                          data-trend-bar
+                          className={`h-full rounded-full transition-[width] duration-500 ${t.year === "2026" ? "bg-gold" : "bg-fg/70"}`}
                           style={{ width: `${t.score}%` }}
                         />
                       </div>
@@ -275,6 +281,7 @@ export default function ExamResultsPage() {
         </div>
       </section>
 
+      <VisualBlockSections path="/exam-results" />
       <Footer />
     </main>
   );

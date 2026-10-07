@@ -128,7 +128,7 @@ export default async function ArticlePage({
       </section>
 
       {/* Body */}
-      <article className="bg-surface py-20 md:py-24">
+      <article data-structured-content className="bg-surface py-20 md:py-24">
         <div className="mx-auto max-w-3xl px-5 md:px-8">
           <Reveal>
             <p className="font-display text-2xl font-medium leading-[1.45] tracking-[-0.01em] text-fg md:text-[1.7rem]">

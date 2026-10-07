@@ -23,6 +23,7 @@ export function CineCard({
 }: CineOverlayProps) {
   return (
     <div
+      data-visual-ui=""
       className={`fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-hidden bg-[#060605] ${
         closing
           ? "cine-overlay-out pointer-events-none"

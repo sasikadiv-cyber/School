@@ -17,6 +17,7 @@ import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
 import { SCENE } from "@/lib/media";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const dynamic = "force-dynamic";
 
@@ -349,6 +350,7 @@ export default async function SportsPage() {
         </div>
       </section>
 
+      <VisualBlockSections path="/sports" />
       <Footer />
     </main>
   );

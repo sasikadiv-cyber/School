@@ -104,6 +104,7 @@ export function Footer() {
     address: "St. Thomas' College, Matale, Sri Lanka",
     officeHours: "Mon – Fri · 7.30 a.m. – 3.30 p.m.",
     admissionsYear: "2027",
+    schoolLogo: "",
   });
 
   useEffect(() => {
@@ -123,21 +124,29 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link href="/#home" className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-gold font-display text-xl font-semibold text-ink">
-                S
-              </span>
+              {settings.schoolLogo ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={settings.schoolLogo}
+                  alt={`${settings.brandName} logo`}
+                  className="h-11 w-11 rounded-full border border-white/20 bg-white object-contain p-0.5"
+                />
+              ) : (
+                <span className="grid h-11 w-11 place-items-center rounded-full bg-gold font-display text-xl font-semibold text-ink">
+                  S
+                </span>
+              )}
               <span className="leading-tight">
                 <span className="block font-display text-xl font-semibold tracking-[-0.01em]">
-                  St. Thomas&apos; College
+                  {settings.brandName}
                 </span>
                 <span className="block font-sans text-[9px] uppercase tracking-[0.35em] text-white/45">
-                  Matale · Est. 1873
+                  {settings.brandSubline}
                 </span>
               </span>
             </Link>
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/55">
-              Shaping scholars, athletes, artists and citizens of uncommon
-              character in the heart of Colombo for over 150 years.
+              {settings.footerDescription}
             </p>
             <div className="mt-8 flex gap-2.5">
               {socials.map(({ icon: Icon, label, href }) => (

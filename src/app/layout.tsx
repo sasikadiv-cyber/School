@@ -6,6 +6,10 @@ import {
   PublishedVisualPatches,
   UniversalVisualEditor,
 } from "@/components/cms/universal-visual-editor";
+import {
+  VISUAL_PATCH_BOOTSTRAP,
+  getPublishedVisualPatchMap,
+} from "@/lib/visual-patch-boot";
 import "./globals.css";
 
 const display = Inter_Tight({
@@ -27,18 +31,32 @@ export const metadata: Metadata = {
     "St. Thomas' College, Matale. A boys' school shaping scholars, athletes, artists and leaders of uncommon character since 1873.",
 };
 
+// Default theme is DARK. Only an explicit visitor choice of "light" flips it.
 const themeInit = `try {
   var t = localStorage.getItem("theme");
-  if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+  if (t !== "light") {
     document.documentElement.classList.add("dark");
   }
-} catch (e) {}`;
+} catch (e) {
+  document.documentElement.classList.add("dark");
+}`;
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const patchMap = await getPublishedVisualPatchMap();
+  const patchJson = JSON.stringify(patchMap).replace(/</g, "\\u003c");
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        {/* Published visual-editor patches, applied before first paint.
+            Prevents the old content flashing after an image/text change. */}
+        <script
+          id="stc-visual-patches"
+          dangerouslySetInnerHTML={{
+            __html: `window.__STC_VP__=${patchJson};${VISUAL_PATCH_BOOTSTRAP}`,
+          }}
+        />
       </head>
       <body
         className={`${display.variable} ${sans.variable} bg-surface font-sans text-fg antialiased`}

@@ -7,7 +7,11 @@ import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { CinematicIntro } from "@/components/cadeting/cinematic-intro";
 import { CadetExploreLink } from "@/components/cadeting/explore-link";
+import { asc, eq } from "drizzle-orm";
+import { db } from "@/db";
+import { unitGalleryItems } from "@/db/schema";
 import { UNITS, getUnit } from "@/lib/units";
+import { getSiteSettings } from "@/lib/cms";
 
 export function generateStaticParams() {
   return UNITS.map((u) => ({ slug: u.slug }));
@@ -36,7 +40,18 @@ export default async function UnitPage({
   const unit = getUnit(slug);
   if (!unit) notFound();
 
+  const settings = await getSiteSettings("published");
   const others = UNITS.filter((u) => u.slug !== unit.slug);
+
+  // Admin-managed Unit Gallery takes priority over the built-in frames.
+  const managedPhotos = await db
+    .select()
+    .from(unitGalleryItems)
+    .where(eq(unitGalleryItems.unitSlug, unit.slug))
+    .orderBy(asc(unitGalleryItems.sortOrder), asc(unitGalleryItems.id));
+  const galleryFrames = managedPhotos.length
+    ? managedPhotos.map((photo) => ({ image: photo.image, caption: photo.title || photo.caption }))
+    : unit.gallery;
 
   return (
     <main className="relative bg-[#0a0a09] text-white">
@@ -45,6 +60,8 @@ export default async function UnitPage({
         name={unit.name}
         tagline={unit.tagline}
         path={`/cadeting/${unit.slug}`}
+        enabled={settings.cadetIntroEnabled !== "false"}
+        holdMs={Number(settings.cadetIntroHold) || 2400}
       >
         <Navbar />
 
@@ -259,8 +276,11 @@ export default async function UnitPage({
               </Reveal>
             </div>
 
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {unit.gallery.map((g, i) => (
+            <div
+              data-structured-content
+              className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+            >
+              {galleryFrames.map((g, i) => (
                 <Reveal key={i} delay={(i % 4) * 90}>
                   <div className="group relative aspect-[4/5] overflow-hidden bg-black">
                     <Image

@@ -383,10 +383,13 @@ export async function getSiteSettings(
     .where(eq(siteSettings.key, "site_identity"))
     .limit(1);
   if (!row) return SITE_SETTINGS_DEFAULTS;
-  return (mode === "draft" ? row.draftValue : row.publishedValue) as Record<
-    string,
-    string
-  >;
+  return {
+    ...SITE_SETTINGS_DEFAULTS,
+    ...((mode === "draft" ? row.draftValue : row.publishedValue) as Record<
+      string,
+      string
+    >),
+  };
 }
 
 export async function updateSiteSettings({

@@ -217,6 +217,9 @@ export const SITE_SETTINGS_DEFAULTS = {
   address: "St. Thomas' College, Matale, Sri Lanka",
   officeHours: "Mon – Fri · 7.30 a.m. – 3.30 p.m.",
   admissionsYear: "2027",
+  schoolLogo: "",
+  cadetIntroEnabled: "true",
+  cadetIntroHold: "2400",
 };
 
 export function getCmsPageDefinition(slug: string) {

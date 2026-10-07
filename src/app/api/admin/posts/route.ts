@@ -4,6 +4,10 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { adminAuditLogs, posts } from "@/db/schema";
 import { requireAdminApi } from "@/lib/admin-auth";
+import {
+  clearEntityMediaUsage,
+  syncEntityMediaUsage,
+} from "@/lib/media-usage";
 
 const CATEGORIES = [
   "Achievements",
@@ -90,6 +94,12 @@ export async function POST(req: Request) {
       entity: "post",
       entityId: String(created.id),
     });
+    await syncEntityMediaUsage({
+      entityType: "post",
+      entityId: created.id,
+      fieldName: "cover",
+      urls: [created.image],
+    });
     await revalidateNews();
     return NextResponse.json({ post: created });
   } catch (error) {
@@ -150,6 +160,12 @@ export async function PATCH(req: Request) {
       entity: "post",
       entityId: String(id),
     });
+    await syncEntityMediaUsage({
+      entityType: "post",
+      entityId: id,
+      fieldName: "cover",
+      urls: [updated.image],
+    });
     return NextResponse.json({ post: updated });
   } catch (error) {
     return NextResponse.json(
@@ -170,6 +186,7 @@ export async function DELETE(req: Request) {
     }
     const [removed] = await db.delete(posts).where(eq(posts.id, numeric)).returning();
     if (removed) revalidatePath(`/news/${removed.slug}`);
+    await clearEntityMediaUsage("post", numeric);
     await revalidateNews();
     await db.insert(adminAuditLogs).values({
       userId: admin.id,

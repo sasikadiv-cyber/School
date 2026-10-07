@@ -10,6 +10,7 @@ import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
 import { PORTRAIT } from "@/lib/media";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,19 @@ function initials(name: string) {
 
 function StaffAvatar({ member, small = false }: { member: StaffMember; small?: boolean }) {
   const size = small ? "h-14 w-14 text-lg" : "h-16 w-16 text-xl";
+  if (member.image) {
+    return (
+      <span className={`relative block ${size} shrink-0 overflow-hidden rounded-full`}>
+        <Image
+          src={member.image}
+          alt={member.name}
+          fill
+          sizes="64px"
+          className="object-cover object-top"
+        />
+      </span>
+    );
+  }
   return (
     <span
       className={`grid ${size} shrink-0 place-items-center rounded-full font-display font-semibold ${
@@ -180,7 +194,7 @@ export default async function StaffPage() {
             sub={`${(principal ? 1 : 0) + leadership.length} senior officers`}
           />
 
-          <div className="mt-10 grid gap-7 lg:grid-cols-[1.35fr_1fr]">
+          <div data-structured-content className="mt-10 grid gap-7 lg:grid-cols-[1.35fr_1fr]">
             {/* Principal featured card */}
             {principal && (
               <Reveal delay={80}>
@@ -189,7 +203,7 @@ export default async function StaffPage() {
                   className="group relative block overflow-hidden rounded-2xl bg-card text-white"
                 >
                   <Image
-                    src="/images/principal.jpg"
+                    src={principal.image || "/images/principal.jpg"}
                     alt={principal.name}
                     width={1200}
                     height={900}
@@ -222,7 +236,7 @@ export default async function StaffPage() {
                   <div className="group flex h-full items-center gap-5 overflow-hidden rounded-2xl bg-card p-3 pr-7 text-white transition-all duration-500 hover:-translate-y-1 hover:shadow-lift">
                     <div className="relative h-32 w-28 shrink-0 overflow-hidden rounded-xl bg-ink sm:h-36 sm:w-32">
                       <Image
-                        src={DEPUTY_PHOTO[i % DEPUTY_PHOTO.length]}
+                        src={m.image || DEPUTY_PHOTO[i % DEPUTY_PHOTO.length]}
                         alt={m.name}
                         fill
                         sizes="140px"
@@ -258,7 +272,7 @@ export default async function StaffPage() {
             sub={`${academic.length} heads of department & senior teachers`}
           />
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div data-structured-content className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {academic.map((m, i) => (
               <Reveal key={m.id} delay={(i % 3) * 90} className="h-full">
                 <div className="group flex h-full items-start gap-5 rounded-2xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
@@ -293,7 +307,7 @@ export default async function StaffPage() {
             sub={`${sports.length} coaches & officers`}
           />
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div data-structured-content className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {sports.map((m, i) => (
               <Reveal key={m.id} delay={(i % 3) * 90} className="h-full">
                 <div className="group flex h-full items-start gap-5 rounded-2xl border border-fg/10 bg-surface-2 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
@@ -328,7 +342,7 @@ export default async function StaffPage() {
             sub={`${arts.length} directors & mentors`}
           />
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div data-structured-content className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {arts.map((m, i) => (
               <Reveal key={m.id} delay={(i % 3) * 90} className="h-full">
                 <div className="group flex h-full items-start gap-5 rounded-2xl border border-fg/10 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-fg/25 hover:shadow-soft">
@@ -382,6 +396,7 @@ export default async function StaffPage() {
         </div>
       </section>
 
+      <VisualBlockSections path="/staff" />
       <Footer />
     </main>
   );

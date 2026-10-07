@@ -52,8 +52,36 @@ export const staff = pgTable("staff", {
   role: text("role").notNull(),
   department: varchar("department", { length: 60 }).notNull(),
   qualification: text("qualification").notNull(),
+  image: text("image"),
   featured: boolean("featured").notNull().default(false),
   sortOrder: integer("sort_order").notNull().default(100),
+});
+
+/** Per-unit image archives for cadeting detail pages. */
+export const unitGalleryItems = pgTable("unit_gallery_items", {
+  id: serial("id").primaryKey(),
+  unitSlug: varchar("unit_slug", { length: 80 }).notNull(),
+  title: text("title").notNull(),
+  image: text("image").notNull(),
+  caption: text("caption").notNull().default(""),
+  aspect: varchar("aspect", { length: 20 }).notNull().default("landscape"),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: false }).notNull().defaultNow(),
+});
+
+/** Reusable Framer-style blocks inserted by the visual component library. */
+export const visualBlocks = pgTable("visual_blocks", {
+  id: serial("id").primaryKey(),
+  pagePath: varchar("page_path", { length: 240 }).notNull(),
+  blockType: varchar("block_type", { length: 40 }).notNull(),
+  draftData: jsonb("draft_data").$type<Record<string, string>>().notNull(),
+  publishedData: jsonb("published_data").$type<Record<string, string>>().notNull(),
+  draftHidden: boolean("draft_hidden").notNull().default(false),
+  publishedHidden: boolean("published_hidden").notNull().default(false),
+  sortOrder: integer("sort_order").notNull().default(100),
+  updatedBy: integer("updated_by"),
+  createdAt: timestamp("created_at", { withTimezone: false }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: false }).notNull().defaultNow(),
 });
 
 export const inquiries = pgTable("inquiries", {
@@ -124,6 +152,8 @@ export const admissionApplications = pgTable("admission_applications", {
 export type Post = typeof posts.$inferSelect;
 export type EventRow = typeof events.$inferSelect;
 export type GalleryItem = typeof galleryItems.$inferSelect;
+export type UnitGalleryItem = typeof unitGalleryItems.$inferSelect;
+export type VisualBlock = typeof visualBlocks.$inferSelect;
 // ─────────────────────────────────────────────────────────────────────────────
 // Admin CMS — Phase 1
 // ─────────────────────────────────────────────────────────────────────────────

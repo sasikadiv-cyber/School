@@ -29,6 +29,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import { MediaLibraryButton } from "@/components/admin/media-picker";
 import type { CmsPageView, CmsSectionView } from "@/lib/cms";
 import type {
   CmsPageDefinition,
@@ -626,8 +627,16 @@ function Inspector({
       <div className="space-y-5">
         {definition.fields.map((field) => (
           <label key={field.key} className="block min-w-0">
-            <span className="mb-2 block font-sans text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40">
+            <span className="mb-2 flex items-center justify-between gap-2 font-sans text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40">
               {field.label}
+              {field.type === "image" && (
+                <MediaLibraryButton
+                  preferFolder="site-assets"
+                  onSelect={(picked) =>
+                    setDraft((current) => ({ ...current, [field.key]: picked.url }))
+                  }
+                />
+              )}
             </span>
             {field.type === "textarea" ? (
               <textarea

@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/eyebrow";
 import { Crest } from "@/components/crest";
+import { VisualBlockSections } from "@/components/cms/visual-block-sections";
 
 export const metadata = {
   title: "Clubs & Societies — St. Thomas' College",
@@ -158,6 +159,7 @@ export default function ClubsSocietiesPage() {
         </div>
       </section>
 
+      <VisualBlockSections path="/clubs-societies" />
       <Footer />
     </main>
   );
